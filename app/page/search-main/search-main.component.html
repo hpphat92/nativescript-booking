@@ -1,8 +1,10 @@
 <StackLayout>
     <ActionBar title="Tell us about your trip" class="action-bar"></ActionBar>
     <StackLayout>
-        <RadDataForm [propertyValidateEvent]="" tkExampleTitle tkToggleNavButton [source]="form" [metadata]="formMetadata">
+        <RadDataForm (propertyValidate)="onPropertyValidate($event)"
+                     (propertyValidated)="onPropertyValidated($event)" tkExampleTitle tkToggleNavButton [source]="form"
+                     [metadata]="formMetadata">
         </RadDataForm>
     </StackLayout>
-    <Button text="Show signup" (tap)="gotoSignup()"></Button>
+    <Button text="Search Trips" (tap)="goSearchTrip()"></Button>
 </StackLayout>

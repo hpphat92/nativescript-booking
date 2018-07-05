@@ -1,0 +1,21 @@
+<ScrollView class="search-result">
+    <StackLayout class="home-panel">
+        <ActionBar title="Search result" class="action-bar">
+            <NavigationButton android.systemIcon="ic_menu_back" text="Back to ActionBar"
+                              (tap)="goBack()"></NavigationButton>
+        </ActionBar>
+        <ActivityIndicator row="2" *ngIf="busy" busy="true" width="50" height="50"
+                           class="activity-indicator"></ActivityIndicator>
+        <ListView class="list-group" [items]="listData" (itemTap)="onItemTap($event)">
+            <ng-template let-item="item">
+                <FlexboxLayout justifyContent="center" flexDirection="row" class="list-group-item">
+                    <Image [src]="item.image" class="main-photo img-circle"></Image>
+                    <FlexboxLayout flexDirection="column" justifyContent="flex-start">
+                        <Label [text]="item.name" class="list-group-item-heading" verticalAlignment="center"></Label>
+                        <Label [text]="item.description" class="list-group-item-text"></Label>
+                    </FlexboxLayout>
+                </FlexboxLayout>
+            </ng-template>
+        </ListView>
+    </StackLayout>
+</ScrollView>

@@ -6,11 +6,16 @@ import { NativeScriptUIDataFormModule } from 'nativescript-ui-dataform/angular';
 import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 import { SearchMainComponent } from '~/page/search-main/search-main.component';
+import { SearchResultComponent } from '~/page/search-result/search-result.component';
 
 const routers: Routes = [
     {
         path: '',
         component: SearchMainComponent,
+    },
+    {
+        path: 'search-result',
+        component: SearchResultComponent,
     }
 ];
 
@@ -23,7 +28,8 @@ const routers: Routes = [
     ],
     declarations: [
         PageComponent,
-        SearchMainComponent
+        SearchMainComponent,
+        SearchResultComponent
     ],
     exports: [
         PageComponent,

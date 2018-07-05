@@ -10,3 +10,20 @@ of writing your own CSS rules. For a full list of class names in the theme
 refer to http://docs.nativescript.org/ui/theme.
 */
 @import '~nativescript-theme-core/css/core.light.css';
+
+.search-result .home-panel {
+    height: 100%;
+}
+
+.search-result .list-group {
+    height: 100%;
+}
+
+.search-result .list-group-item .main-photo {
+    width: 300px;
+    height: 300px;
+    min-width: 300px;
+    object-fit: cover;
+    padding-right: 10px;
+    border-radius: 0;
+}

@@ -10,6 +10,13 @@ import { NativeScriptUISideDrawerModule } from 'nativescript-ui-sidedrawer/angul
 
 // Uncomment and add to NgModule imports  if you need to use the HTTP wrapper
 import { NativeScriptHttpModule } from 'nativescript-angular/http';
+import AppConstant from '~/app.constant';
+import { ApiModule, Configuration, BASE_PATH } from '~/shared/api';
+
+let domain = {
+    toString: () => AppConstant.domain,
+    valueof: () => AppConstant.domain,
+};
 
 @NgModule({
     bootstrap: [
@@ -20,11 +27,19 @@ import { NativeScriptHttpModule } from 'nativescript-angular/http';
         NativeScriptUISideDrawerModule,
         NativeScriptHttpModule,
         AppRoutingModule,
+        ApiModule.forRoot((): Configuration => {
+            return new Configuration({
+                apiKeys: {},
+            });
+        }),
         // PageModule,
         // HomeModule
     ],
     declarations: [
         AppComponent,
+    ],
+    providers: [
+        { provide: BASE_PATH, useValue: domain },
     ],
     schemas: [
         NO_ERRORS_SCHEMA
