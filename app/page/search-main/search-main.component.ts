@@ -84,7 +84,6 @@ export class SearchMainComponent implements OnInit {
     };
 
     constructor(private router: Router) {
-        console.log('Init Login');
     }
 
     ngOnInit(): void {
@@ -146,6 +145,15 @@ export class SearchMainComponent implements OnInit {
                     numberOfNights: moment(+departureDateProp.valueCandidate).diff(+arrivalDateProp.valueCandidate, 'd')
                 };
                 dataForm.reload();
+            } else {
+                if (arrivalDateProp.isValid && +arrivalDateProp.valueCandidate && !(+departureDateProp.valueCandidate && departureDateProp.isValid)) {
+                    this.form = {
+                        ...this.form,
+                        arrivalDate: +arrivalDateProp.valueCandidate,
+                        departureDate: +moment(+arrivalDateProp.valueCandidate).add(1, 'd').toDate(),
+                        numberOfNights: 1
+                    };
+                }
             }
         }
         if (propertyName === 'numberOfNights') {

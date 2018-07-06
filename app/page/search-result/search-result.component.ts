@@ -63,7 +63,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
                 this.searchInfo.timeElapsed = (((+new Date()) - this.searchInfo.startTimeReq) / 1000).toFixed(2);
                 this.searchInfo.startTimeReq = 0;
                 this.total = resp.data.total;
-                this.listData = resp.data.entities;
+                this.listData = [...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities];
                 return resp.data.entities;
             }, () => {
                 this.searchInfo.searching = false;
@@ -74,6 +74,16 @@ export class SearchResultComponent implements OnInit, OnDestroy {
 
     public goBack() {
         this.routerExtensions.backToPreviousPage();
+    }
+
+    public onItemTap(args) {
+        let selectedItem = this.listData[args.index];
+        this.router.navigate(['hotel-detail'], {
+            queryParams: {
+                ...this.searchCriteria,
+                id: selectedItem.id
+            }
+        })
     }
 
     ngOnDestroy(): void {

@@ -7,6 +7,7 @@ import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 import { SearchMainComponent } from '~/page/search-main/search-main.component';
 import { SearchResultComponent } from '~/page/search-result/search-result.component';
+import { HotelDetailComponent } from '~/page/hotel-detail/hotel-detail.component';
 
 const routers: Routes = [
     {
@@ -16,6 +17,10 @@ const routers: Routes = [
     {
         path: 'search-result',
         component: SearchResultComponent,
+    },
+    {
+        path: 'hotel-detail',
+        component: HotelDetailComponent,
     }
 ];
 
@@ -29,7 +34,8 @@ const routers: Routes = [
     declarations: [
         PageComponent,
         SearchMainComponent,
-        SearchResultComponent
+        SearchResultComponent,
+        HotelDetailComponent
     ],
     exports: [
         PageComponent,

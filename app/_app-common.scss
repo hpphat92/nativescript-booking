@@ -1,0 +1,90 @@
+// Import the theme’s variables. If you’re using a color scheme
+// other than “light”, switch the path to the alternative scheme,
+// for example '~nativescript-theme-core/scss/dark'.
+@import '~nativescript-theme-core/scss/light';
+// Customize any of the theme’s variables here, for instance $btn-color: red;
+// Import the theme’s main ruleset.
+@import '~nativescript-theme-core/scss/index';
+@import "https://fonts.googleapis.com/css?family=Source+Sans+Pro";
+// Place any CSS rules you want to apply on both iOS and Android here.
+// This is where the vast majority of your CSS code goes.
+html, body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.search-result {
+  .home-panel {
+    height: 100%;
+  }
+  .list-group {
+    height: 100%;
+  }
+  .list-group-item {
+    .main-photo {
+      height: 220px;
+      min-width: 300px;
+      border-radius: 0;
+      margin: 0;
+    }
+    .list-group-item-heading {
+      color: #000;
+    }
+    .main-content {
+      padding: 20px 0 20px 12px;
+
+    }
+
+  }
+}
+
+.hotel-detail {
+  .main-photo {
+    $main-photo-height-px: 650px;
+    height: $main-photo-height-px;
+    min-height: $main-photo-height-px;
+    max-height: $main-photo-height-px;
+    margin-bottom: 10px;
+  }
+  .image-list {
+    overflow: auto;
+  }
+  .image-list Image {
+    height: 100%;
+    width: 300px;
+    object-fit: contain;
+    margin: 10px;
+    border: 2px solid #fff;
+  }
+  .scroll-menu {
+    padding: 0 20px;
+  }
+  .hotel-name {
+    display: block;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 2;
+    color: #00339b;
+  }
+  .hotel-description {
+    font-size: 15px;
+    margin: 5px 0 0 0;
+    color: #333;
+    border: none;
+    word-wrap: break-word;
+  }
+  .facilities-list {
+    border: none;
+    padding: 20px 15px;
+    .facility {
+      padding: 10px 20px;
+      background: #0061de;
+      margin-right: 15px;
+      margin-bottom: 14px;
+      border-radius: 10px;
+      font-size: 10px;
+      color: #fff;
+      font-weight: bold;
+    }
+  }
+}

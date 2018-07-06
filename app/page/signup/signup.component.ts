@@ -16,7 +16,6 @@ export class SignupComponent implements OnInit {
     };
 
     constructor() {
-        console.log('Init Login');
     }
 
     ngOnInit(): void {

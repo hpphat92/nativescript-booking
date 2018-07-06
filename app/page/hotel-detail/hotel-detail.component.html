@@ -1,0 +1,30 @@
+<div class="hotel-detail">
+    <ActionBar [title]="hotel?.name" class="action-bar">
+        <NavigationButton android.systemIcon="ic_menu_back" text="Back to ActionBar"
+                          (tap)="goBack()"></NavigationButton>
+    </ActionBar>
+    <ScrollView>
+        <StackLayout orientation="vertical" width="100%">
+            <Image class="main-photo"
+                   [src]="currentSelectedPhoto || ((hotel.images && hotel.images[0])?hotel.images[0]: '')"
+                   stretch="aspectFill"></Image>
+            <ScrollView orientation="horizontal">
+                <StackLayout orientation="horizontal" class="scroll-menu">
+                    <Image (tap)="showPhoto(img)" verticalAlignment="stretch" height="80"
+                           *ngFor="let img of hotel.images" class="main-photo"
+                           [src]="img"></Image>
+                </StackLayout>
+            </ScrollView>
+            <Label class="hotel-name" [text]="hotel.name"></Label>
+            <DockLayout width="100%" stretchLastChild="true">
+                <TextView [(ngModel)]="hotel.description" class="hotel-description" editable="false" dock="top">
+                </TextView>
+                <WrapLayout dock="top" orientation="horizontal" width="100%" class="facilities-list">
+                    <Label *ngFor="let f of hotel.facilities" class="facility" [text]="f.name"></Label>
+                </WrapLayout>
+                <!--<Label text="top" dock="top" backgroundColor="green"></Label>-->
+                <Button text="Book now" class="btn btn-primary" (tap)="goSearchTrip()"></Button>
+            </DockLayout>
+        </StackLayout>
+    </ScrollView>
+</div>
