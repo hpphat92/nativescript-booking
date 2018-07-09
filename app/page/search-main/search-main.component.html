@@ -1,9 +1,11 @@
 <ActionBar title="Tell us about your trip" class="action-bar"></ActionBar>
-<StackLayout>
-    <RadDataForm (propertyValidate)="onPropertyValidate($event)"
-                 (propertyValidated)="onPropertyValidated($event)"
-                 [source]="form"
-                 [metadata]="formMetadata">
-    </RadDataForm>
-    <Button text="Search Trips" class="btn btn-primary" (tap)="goSearchTrip()"></Button>
-</StackLayout>
+<ScrollView>
+    <StackLayout>
+        <RadDataForm (propertyValidate)="onPropertyValidate($event)"
+                     (propertyValidated)="onPropertyValidated($event)"
+                     [source]="form"
+                     [metadata]="formMetadata">
+        </RadDataForm>
+        <Button text="Search Trips" class="btn btn-primary" (tap)="goSearchTrip()"></Button>
+    </StackLayout>
+</ScrollView>
