@@ -47,9 +47,11 @@ export class SearchResultComponent implements OnInit, OnDestroy {
     public search(model) {
         this.busy = true;
         this.searchInfo.startTimeReq = +(new Date());
+        let arrivalDate = +moment(+model.arrivalDate) || +moment(model.arrivalDate);
+        let departureDate = +moment(+model.departureDate) || +moment(model.departureDate);
         return this.bookingService.bookingSearchProperties(
-            moment(+model.arrivalDate).format(AppConstant.typeFormat.date),
-            moment(+model.departureDate).format(AppConstant.typeFormat.date),
+            moment(arrivalDate).format(AppConstant.typeFormat.date),
+            moment(departureDate).format(AppConstant.typeFormat.date),
             model.numberOfPAX,
             '',
             '0',
@@ -63,7 +65,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
                 this.searchInfo.timeElapsed = (((+new Date()) - this.searchInfo.startTimeReq) / 1000).toFixed(2);
                 this.searchInfo.startTimeReq = 0;
                 this.total = resp.data.total;
-                this.listData = [...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities,...resp.data.entities];
+                this.listData = [...resp.data.entities, ...resp.data.entities, ...resp.data.entities, ...resp.data.entities, ...resp.data.entities, ...resp.data.entities, ...resp.data.entities, ...resp.data.entities, ...resp.data.entities, ...resp.data.entities, ...resp.data.entities];
                 return resp.data.entities;
             }, () => {
                 this.searchInfo.searching = false;
