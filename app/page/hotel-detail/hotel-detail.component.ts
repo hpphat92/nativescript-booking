@@ -6,6 +6,7 @@ import AppConstant from '~/app.constant';
 import 'rxjs/add/operator/map';
 import { BookingService } from '~/shared/api';
 import * as _ from 'lodash';
+import { action } from 'tns-core-modules/ui/dialogs';
 
 @Component({
     selector: 'hotel-detail-component',
@@ -20,6 +21,7 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
     public totalRates = 0;
     public currentSelectedPhoto;
     public numberOfSelectAmounts = [];
+    public listRoomValue = ['1 Room', '2 Rooms', '3 Rooms'];
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -56,8 +58,7 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
                             }
                         })
                     })
-                )
-                debugger;
+                );
             })
     }
 
@@ -71,5 +72,18 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
 
     public showPhoto(photo) {
         this.currentSelectedPhoto = photo;
+    }
+
+    public choiceRoom(room) {
+        let options = {
+            title: "Race selection",
+            message: "Choose your race",
+            cancelButtonText: "Cancel",
+            actions: ["Human", "Elf", "Dwarf", "Orc", "Unicorn"]
+        };
+
+        action(options).then((result) => {
+            console.log(result);
+        });
     }
 }

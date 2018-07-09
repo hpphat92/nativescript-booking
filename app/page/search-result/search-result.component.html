@@ -1,7 +1,7 @@
 <ScrollView class="search-result">
     <StackLayout class="home-panel">
         <ActionBar title="Search result" class="action-bar">
-            <NavigationButton android.systemIcon="ic_menu_back" text="Back to ActionBar"
+            <NavigationButton icon="res://ic_left" text="Back"
                               (tap)="goBack()"></NavigationButton>
         </ActionBar>
         <ActivityIndicator row="2" *ngIf="busy" busy="true" width="50" height="50"
