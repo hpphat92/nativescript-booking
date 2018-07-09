@@ -1,30 +1,61 @@
 <div class="hotel-detail">
     <ActionBar [title]="hotel?.name" class="action-bar">
-        <NavigationButton android.systemIcon="ic_menu_back" text="Back to ActionBar"
+        <NavigationButton icon="res://ic_left" text="Back"
                           (tap)="goBack()"></NavigationButton>
     </ActionBar>
-    <ScrollView>
-        <StackLayout orientation="vertical" width="100%">
-            <Image class="main-photo"
-                   [src]="currentSelectedPhoto || ((hotel.images && hotel.images[0])?hotel.images[0]: '')"
-                   stretch="aspectFill"></Image>
-            <ScrollView orientation="horizontal">
-                <StackLayout orientation="horizontal" class="scroll-menu">
-                    <Image (tap)="showPhoto(img)" verticalAlignment="stretch" height="80"
-                           *ngFor="let img of hotel.images" class="main-photo"
+
+
+    <TabView>
+        <ScrollView *tabItem="{title: 'Information'}">
+            <StackLayout orientation="vertical" width="100%">
+                <Image class="main-photo"
+                       [src]="currentSelectedPhoto || ((hotel.images && hotel.images[0])?hotel.images[0]: '')"
+                       stretch="aspectFill"></Image>
+                <!--<ScrollView orientation="horizontal">-->
+                <!--<StackLayout orientation="horizontal" class="scroll-menu">-->
+
+                <!--</StackLayout>-->
+                <!--</ScrollView>-->
+                <Label class="hotel-name" [text]="hotel.name"></Label>
+                <DockLayout width="100%" stretchLastChild="true">
+                    <Label textWrap="true" [text]="hotel.description" class="hotel-description" editable="false"
+                           dock="top">
+                    </Label>
+                    <WrapLayout dock="top" orientation="horizontal" width="100%" class="facilities-list">
+                        <Label *ngFor="let f of hotel.facilities" class="facility" [text]="f.name"></Label>
+                    </WrapLayout>
+                    <!--<Label text="top" dock="top" backgroundColor="green"></Label>-->
+                    <Button text="Book now" class="btn btn-primary" (tap)="goSearchTrip()"></Button>
+                </DockLayout>
+            </StackLayout>
+        </ScrollView>
+        <ScrollView *tabItem="{title: 'Gallery'}">
+            <StackLayout>
+                <WrapLayout dock="top" orientation="horizontal" width="100%" class="photo-gallery-list">
+                    <Image (tap)="showPhoto(img)" verticalAlignment="stretch"
+                           *ngFor="let img of hotel.images" class="main-photo" stretch="aspectFill"
                            [src]="img"></Image>
-                </StackLayout>
-            </ScrollView>
-            <Label class="hotel-name" [text]="hotel.name"></Label>
-            <DockLayout width="100%" stretchLastChild="true">
-                <TextView [(ngModel)]="hotel.description" class="hotel-description" editable="false" dock="top">
-                </TextView>
-                <WrapLayout dock="top" orientation="horizontal" width="100%" class="facilities-list">
-                    <Label *ngFor="let f of hotel.facilities" class="facility" [text]="f.name"></Label>
                 </WrapLayout>
-                <!--<Label text="top" dock="top" backgroundColor="green"></Label>-->
-                <Button text="Book now" class="btn btn-primary" (tap)="goSearchTrip()"></Button>
-            </DockLayout>
-        </StackLayout>
-    </ScrollView>
+            </StackLayout>
+        </ScrollView>
+        <ScrollView *tabItem="{title: 'Rooms'}" class="room-type-list">
+            <StackLayout>
+                <ng-template [ngIf]="hotel">
+                    <FlexboxLayout flexDirection="column" *ngFor="let room of hotel.rooms">
+                        <Label class="room-type-name" [text]="room.name"></Label>
+                        <Label class="room-type-description" textWrap="true" [text]="room.description"></Label>
+                        <WrapLayout>
+                            <Label *ngFor="let f of room.facilities" [text]="f.name"></Label>
+                        </WrapLayout>
+                        <FlexboxLayout flexDirection="row" justifyContent="space-between"
+                                       *ngFor="let r of room.rateTypes">
+                            <Label [text]="r.name"></Label>
+                            <Label (tap)="choiceRoom(r)" text="--Choice Amount--"></Label>
+                        </FlexboxLayout>
+                    </FlexboxLayout>
+                </ng-template>
+            </StackLayout>
+
+        </ScrollView>
+    </TabView>
 </div>

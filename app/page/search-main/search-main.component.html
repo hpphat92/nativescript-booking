@@ -1,15 +1,11 @@
 <ScrollView>
     <StackLayout>
         <ActionBar title="Tell us about your trip" class="action-bar"></ActionBar>
-        <ScrollView>
-            <StackLayout>
-                <RadDataForm (propertyValidate)="onPropertyValidate($event)"
-                             (propertyValidated)="onPropertyValidated($event)" tkExampleTitle tkToggleNavButton
-                             [source]="form"
-                             [metadata]="formMetadata">
-                </RadDataForm>
-            </StackLayout>
-        </ScrollView>
+        <RadDataForm (propertyValidate)="onPropertyValidate($event)"
+                     (propertyValidated)="onPropertyValidated($event)" tkExampleTitle tkToggleNavButton
+                     [source]="form"
+                     [metadata]="formMetadata">
+        </RadDataForm>
         <Button text="Search Trips" (tap)="goSearchTrip()"></Button>
     </StackLayout>
 </ScrollView>
