@@ -17,7 +17,7 @@ export class SearchMainComponent implements OnInit {
     public radDataForm: RadDataFormComponent;
     public formMetadata = {
         'isReadOnly': false,
-        'commitMode': 'Immediate',
+        'commitMode': 'OnLostFocus',
         'validationMode': 'Immediate',
         'propertyAnnotations':
             [
@@ -43,6 +43,7 @@ export class SearchMainComponent implements OnInit {
                     'name': 'numberOfNights',
                     'displayName': 'No. night',
                     'index': 2,
+                    'readOnly': true,
                     'validators': [
                         { 'name': 'NonEmpty' },
                         {
