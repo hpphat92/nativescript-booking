@@ -17,8 +17,8 @@ export class SearchMainComponent implements OnInit {
     public radDataForm: RadDataFormComponent;
     public formMetadata = {
         'isReadOnly': false,
-        'commitMode': 'OnLostFocus',
-        'validationMode': 'OnLostFocus',
+        'commitMode': 'Immediate',
+        'validationMode': 'Immediate',
         'propertyAnnotations':
             [
                 {
@@ -107,7 +107,7 @@ export class SearchMainComponent implements OnInit {
             case 'arrivalDate':
                 otherDate = dataForm.getPropertyByName('departureDate');
                 currentDate = args.entityProperty;
-                if (+otherDate.valueCandidate && +otherDate.valueCandidate < +currentDate.valueCandidate) {
+                if (this.parseDate(otherDate.valueCandidate) && this.parseDate(otherDate.valueCandidate) < this.parseDate(currentDate.valueCandidate)) {
                     currentDate.errorMessage = 'Arrival date should less than departure date';
                     validationResult = false;
                     dataForm.notifyValidated('arrivalDate', false);
@@ -118,7 +118,7 @@ export class SearchMainComponent implements OnInit {
             case 'departureDate':
                 otherDate = dataForm.getPropertyByName('arrivalDate');
                 currentDate = args.entityProperty;
-                if (+currentDate.valueCandidate && +otherDate.valueCandidate > +currentDate.valueCandidate) {
+                if (this.parseDate(otherDate.valueCandidate) > this.parseDate(currentDate.valueCandidate)) {
                     currentDate.errorMessage = 'Departure date should greater than arrival date';
                     validationResult = false;
                 } else {
@@ -137,12 +137,12 @@ export class SearchMainComponent implements OnInit {
         let departureDateProp = dataForm.getPropertyByName('departureDate');
         if (propertyName === 'arrivalDate' || propertyName === 'departureDate') {
             if (arrivalDateProp.isValid && departureDateProp.isValid
-                && +departureDateProp.valueCandidate && +arrivalDateProp.valueCandidate) {
+                && this.parseDate(departureDateProp.valueCandidate) && this.parseDate(arrivalDateProp.valueCandidate)) {
                 this.form = {
                     ...this.form,
-                    arrivalDate: +arrivalDateProp.valueCandidate,
-                    departureDate: +departureDateProp.valueCandidate,
-                    numberOfNights: moment(+departureDateProp.valueCandidate).diff(+arrivalDateProp.valueCandidate, 'd')
+                    arrivalDate: this.parseDate(arrivalDateProp.valueCandidate),
+                    departureDate: this.parseDate(departureDateProp.valueCandidate),
+                    numberOfNights: moment(this.parseDate(departureDateProp.valueCandidate)).diff(this.parseDate(arrivalDateProp.valueCandidate), 'd')
                 };
                 dataForm.reload();
             } else {
@@ -179,5 +179,10 @@ export class SearchMainComponent implements OnInit {
         //         }
         //     }
         // }
+    }
+
+    public parseDate(dateStringOrNumber) {
+        // This is either number in string or date formatted in string
+        return +moment(+dateStringOrNumber) || +moment(dateStringOrNumber)
     }
 }
