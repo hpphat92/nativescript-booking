@@ -2,14 +2,20 @@
 
 <ScrollView>
         <FlexboxLayout flexDirection="column">
+
                 <RadDataForm (propertyValidate)="onPropertyValidate($event)"
                 (propertyValidated)="onPropertyValidated($event)"
                 [source]="form"
                 height="400"
                 [metadata]="formMetadata">
                 </RadDataForm>
-                <Button text="Search Trips" class="btn btn-primary"
-                 (tap)="goSearchTrip()"></Button>
+                <Button class="btn btn-primary btn-fa-icon"
+                 (tap)="goSearchTrip()">
+                        <FormattedString>
+                                <Span text="&#xf002;&nbsp;" fontFamily="FontAwesome"></Span>
+                                <Span text="Search Trips" ></Span>
+                        </FormattedString>
+                </Button>
         </FlexboxLayout>
 </ScrollView>  
 

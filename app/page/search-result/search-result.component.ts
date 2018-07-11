@@ -1,10 +1,11 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RouterExtensions } from 'nativescript-angular';
+import { registerElement, RouterExtensions } from 'nativescript-angular';
 import * as moment from 'moment';
 import AppConstant from '~/app.constant';
 import 'rxjs/add/operator/map';
 import { BookingService } from '~/shared/api';
+registerElement("PullToRefresh",() => require("nativescript-pulltorefresh").PullToRefresh);
 
 @Component({
     selector: 'search-result-component',
@@ -44,8 +45,10 @@ export class SearchResultComponent implements OnInit, OnDestroy {
         });
     }
 
-    public search(model) {
-        this.busy = true;
+    public search(model, noReload?) {
+        if(!noReload){
+            this.busy = true;
+        }
         this.searchInfo.startTimeReq = +(new Date());
         let arrivalDate = +moment(+model.arrivalDate) || +moment(model.arrivalDate);
         let departureDate = +moment(+model.departureDate) || +moment(model.departureDate);
@@ -60,7 +63,9 @@ export class SearchResultComponent implements OnInit, OnDestroy {
             this.paging.pageSize
         )
             .map((resp: any) => {
-                this.busy = false;
+                if(!noReload){
+                    this.busy = false;
+                }
                 this.searchInfo.searching = false;
                 this.searchInfo.timeElapsed = (((+new Date()) - this.searchInfo.startTimeReq) / 1000).toFixed(2);
                 this.searchInfo.startTimeReq = 0;
@@ -90,5 +95,15 @@ export class SearchResultComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subscription && this.subscription.unsubscribe();
+    }
+
+    public onPullToRefreshInitiated(args) {
+        const listView = args.object;
+        this.search(this.searchCriteria, true).subscribe((resp) => {
+            this.listData = resp;
+            listView.notifyPullToRefreshFinished();
+        }, () => {
+            listView.notifyPullToRefreshFinished();
+        });
     }
 }

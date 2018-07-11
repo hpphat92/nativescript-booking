@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterExtensions } from 'nativescript-angular';
 import * as moment from 'moment';
@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import { BookingService } from '~/shared/api';
 import * as _ from 'lodash';
 import { action } from 'tns-core-modules/ui/dialogs';
+import { FilePhotoview } from 'nativescript-file-photoview';
 
 @Component({
     selector: 'hotel-detail-component',
@@ -15,13 +16,16 @@ import { action } from 'tns-core-modules/ui/dialogs';
 })
 export class HotelDetailComponent implements OnInit, OnDestroy {
     public subscription;
+    public times = _.times;
     public searchCriteria;
     public hotel: any = {};
     public roomList = [];
     public totalRates = 0;
+    public totalPrice = 0;
+    public tabSelectedIndex = 0;
+    public filePhotoView;
     public currentSelectedPhoto;
     public numberOfSelectAmounts = [];
-    public listRoomValue = ['1 Room', '2 Rooms', '3 Rooms'];
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -32,7 +36,8 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
             this.getHotelDetail().subscribe(() => {
 
             })
-        })
+        });
+        this.filePhotoView = new FilePhotoview();
     }
 
     ngOnInit(): void {
@@ -70,20 +75,42 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
         this.subscription && this.subscription.unsubscribe();
     }
 
-    public showPhoto(photo) {
-        this.currentSelectedPhoto = photo;
-    }
-
-    public choiceRoom(room) {
+    public choiceRoom(room, roomItem) {
         let options = {
-            title: "Race selection",
-            message: "Choose your race",
-            cancelButtonText: "Cancel",
-            actions: ["Human", "Elf", "Dwarf", "Orc", "Unicorn"]
+            title: 'Choice Amount',
+            message: 'Select how many rooms you need',
+            cancelButtonText: 'Cancel',
+            actions: _.times(21, (value) => {
+                return `${value} - $${(value * room.rate).toFixed(2)}`;
+            })
         };
 
         action(options).then((result) => {
-            console.log(result);
+            if (result.toLowerCase() !== 'cancel') {
+                let amountSelected = +result.split('-')[0].trim();
+                roomItem.text = amountSelected + ' room(s)';
+                room.amountSelected = amountSelected;
+                this.updateTotalPrice();
+            }
         });
+    }
+
+    public updateTotalPrice() {
+        this.totalPrice = _.reduce(this.hotel.rooms, (m, room) => {
+            return m + _.reduce(room.rateTypes, (a, b) => a + (b.amountSelected || 0) * b.rate, 0);
+        }, 0);
+    }
+
+    public viewPhoto(imgUrl) {
+        // Display the photo
+        this.filePhotoView.show(imgUrl);
+    }
+
+    public goBookingTab() {
+        this.tabSelectedIndex = 2;
+    }
+
+    public bookRooms() {
+
     }
 }

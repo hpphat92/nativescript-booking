@@ -6,18 +6,26 @@
         </ActionBar>
         <ActivityIndicator row="2" *ngIf="busy" busy="true" width="50" height="50"
                            class="activity-indicator"></ActivityIndicator>
-        <ScrollView>
-            <ListView class="list-group" [items]="listData" (itemTap)="onItemTap($event)">
-                <ng-template let-item="item">
-                    <FlexboxLayout justifyContent="center" flexDirection="row" class="list-group-item">
-                        <Image [src]="item.image" class="main-photo img-circle"></Image>
-                        <FlexboxLayout class="main-content" flexDirection="column" justifyContent="flex-start">
-                            <Label [text]="item.name" class="list-group-item-heading" verticalAlignment="center"></Label>
-                            <Label [text]="item.description" class="list-group-item-text"></Label>
-                        </FlexboxLayout>
+        <Label *ngIf="!listData || !listData.length" text="No results" class="text-center"></Label>
+        <RadListView [items]="listData"
+                     row="1" selectionBehavior="Press"
+                     (itemSelected)="onItemTap($event)"
+                     class="list-group" pullToRefresh="true" style="height: 100%"
+                     (pullToRefreshInitiated)="onPullToRefreshInitiated($event)">
+            <!--<PullToRefresh (refresh)="onRefresh($event)">-->
+            <!--<ListView class="list-group" [items]="listData" (itemTap)="onItemTap($event)">-->
+            <ng-template let-item="item" tkListItemTemplate>
+                <FlexboxLayout justifyContent="center" flexDirection="row" class="list-group-item">
+                    <Image [src]="item.image" class="main-photo img-circle" stretch="aspectFill"></Image>
+                    <FlexboxLayout flexGrow="1" class="main-content" flexDirection="column"
+                                   justifyContent="flex-start">
+                        <Label [text]="item.name" class="list-group-item-heading"
+                               verticalAlignment="center"></Label>
+                        <Label [text]="item.description" class="list-group-item-text"></Label>
+                        <Label class="price" [text]="item.minPrice | currency: 'USD': '$'"></Label>
                     </FlexboxLayout>
-                </ng-template>
-            </ListView>
-        </ScrollView>
+                </FlexboxLayout>
+            </ng-template>
+        </RadListView>
     </StackLayout>
 </ScrollView>

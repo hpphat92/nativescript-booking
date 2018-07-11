@@ -5,6 +5,7 @@
 // Customize any of the theme’s variables here, for instance $btn-color: red;
 // Import the theme’s main ruleset.
 @import '~nativescript-theme-core/scss/index';
+@import "assets/font-awesome.css";
 @import "https://fonts.googleapis.com/css?family=Source+Sans+Pro";
 // Place any CSS rules you want to apply on both iOS and Android here.
 // This is where the vast majority of your CSS code goes.
@@ -23,11 +24,19 @@ html, body {
     .main-photo {
       height: 220px;
       min-width: 300px;
+      width: 300px;
+      max-width: 300px;
       border-radius: 0;
       margin: 0;
     }
     .list-group-item-heading {
       color: #000;
+    }
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+      color: #3f8530;
+      display: inline-block;
     }
     .main-content {
       padding: 20px 0 20px 12px;
@@ -36,14 +45,17 @@ html, body {
 
   }
 }
+
 NavigationButton {
   &:after {
     content: 'Hello'
   }
 }
+
 .hotel-detail {
   .main-photo {
     $main-photo-height-px: 700px;
+
     height: $main-photo-height-px;
     min-height: $main-photo-height-px;
     max-height: $main-photo-height-px;
@@ -86,12 +98,11 @@ NavigationButton {
     padding: 20px 15px;
     .facility {
       padding: 10px 20px;
-      background: #0061de;
       margin-right: 15px;
       margin-bottom: 14px;
       border-radius: 10px;
-      font-size: 10px;
-      color: #fff;
+      font-size: 11px;
+      color: #003e87;
       font-weight: bold;
     }
   }
@@ -102,16 +113,81 @@ NavigationButton {
     }
   }
   .room-type-list {
-    .room-type-name {
-      font-size: 18px;
-      color: #2142c8;
-      line-height: 2;
-      text-align: center;
+    .room-type-container {
+      border-bottom: 1px solid #ccc;
+      .room-type-name {
+        font-size: 18px;
+        color: #2142c8;
+        line-height: 2;
+        text-align: center;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+      .room-type-description {
+        font-size: 14px;
+        color: #222;
+        padding: 10px 30px;
+        line-height: 1.5;
+      }
+      .room-type-facilities-container {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 10px 15px 5px 15px;
+        .facility {
+          padding: 10px 20px;
+          color: #003e87;
+          margin-right: 15px;
+          margin-bottom: 14px;
+          border-radius: 10px;
+          font-size: 10px;
+          font-weight: bold;
+        }
+      }
+      .room-type-list-container {
+        background: #efefef;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #bfbfbf;
+        .select-room-type-amount {
+          padding: 0 10px;
+          margin: 20px 0 50px 0;
+          .room-type-name {
+            font-weight: bold;
+            font-size: 14px;
+            color: #222;
+          }
+          .capacity {
+            color: #000;
+            font-size: 12px;
+          }
+          .price {
+            font-size: 14px;
+            font-weight: bold;
+            color: #3f8530;
+          }
+          .selected-amount {
+            font-size: 14px;
+            color: #8f8f8f;
+          }
+        }
+      }
     }
-    .room-type-description {
-      font-size: 14px;
-      color: #222;
-      padding: 10px 30px;
+    .total-price {
+      line-height: 5;
+      margin: 20px 0;
+      font-size: 25px;
+      padding-right: 15px;
+      color: #003e87;
+      .title {
+        font-size: 22px;
+      }
+    }
+    .more-description {
+      font-size: 12px;
+      color: #bbb;
     }
   }
+}
+
+.btn-fa-icon {
+  font-family: FontAwesome;
 }
