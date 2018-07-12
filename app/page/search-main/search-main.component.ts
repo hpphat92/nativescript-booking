@@ -17,7 +17,7 @@ export class SearchMainComponent implements OnInit {
     public radDataForm: RadDataFormComponent;
     public formMetadata = {
         'isReadOnly': false,
-        'commitMode': 'OnLostFocus',
+        'commitMode': 'Immediate',
         'validationMode': 'Immediate',
         'propertyAnnotations':
             [
