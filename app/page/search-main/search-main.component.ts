@@ -195,7 +195,7 @@ export class SearchMainComponent implements OnInit, AfterViewInit {
         if (isAndroid) {
             return (moment(+dateStringOrNumber) || moment(dateStringOrNumber)).format('YYYY-MM-DD');
         } else {
-            return moment(dateStringOrNumber).toDate() ? (moment(+dateStringOrNumber) || moment(dateStringOrNumber)).format('YYYY-MM-DD') : dateStringOrNumber;
+            return +dateStringOrNumber ? (moment(+dateStringOrNumber) || moment(dateStringOrNumber)).format('YYYY-MM-DD') : dateStringOrNumber;
         }
         // This is either number in string or date formatted in string
     }
