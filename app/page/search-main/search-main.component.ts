@@ -147,11 +147,11 @@ export class SearchMainComponent implements OnInit {
                 };
                 dataForm.reload();
             } else {
-                if (arrivalDateProp.isValid && this.parseDate(arrivalDateProp.valueCandidate) && !(+departureDateProp.valueCandidate && departureDateProp.isValid)) {
+                if (arrivalDateProp.isValid && this.parseDate(arrivalDateProp.valueCandidate) && !(this.parseDate(departureDateProp.valueCandidate) && departureDateProp.isValid)) {
                     this.form = {
                         ...this.form,
-                        arrivalDate: +arrivalDateProp.valueCandidate,
-                        departureDate: +moment(+arrivalDateProp.valueCandidate).add(1, 'd').toDate(),
+                        arrivalDate: this.parseDate(arrivalDateProp.valueCandidate),
+                        departureDate: +moment(this.parseDate(arrivalDateProp.valueCandidate)).add(+args.entityProperty.valueCandidate, 'd').toDate(),
                         numberOfNights: 1
                     };
                 }
@@ -161,9 +161,9 @@ export class SearchMainComponent implements OnInit {
             if (arrivalDateProp.isValid && +arrivalDateProp.valueCandidate) {
                 this.form = {
                     ...this.form,
-                    numberOfNights: +args.entityProperty.valueCandidate,
-                    arrivalDate: +arrivalDateProp.valueCandidate,
-                    departureDate: +moment(+arrivalDateProp.valueCandidate).add(+args.entityProperty.valueCandidate, 'd').toDate(),
+                    numberOfNights: args.entityProperty.valueCandidate,
+                    arrivalDate: this.parseDate(arrivalDateProp.valueCandidate),
+                    departureDate: +moment(this.parseDate(arrivalDateProp.valueCandidate)).add(+args.entityProperty.valueCandidate, 'd').toDate(),
                 };
                 dataForm.reload();
             }
