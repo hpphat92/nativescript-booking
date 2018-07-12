@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { action } from 'tns-core-modules/ui/dialogs';
 import { FilePhotoview } from 'nativescript-file-photoview';
 import PageService from '~/page/page.service';
+import { isAndroid, isIOS } from 'platform';
 
 @Component({
     selector: 'hotel-detail-component',
@@ -46,28 +47,31 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
     }
 
     public getHotelDetail() {
-        return this.bookingService.bookingDetailProperty(
-            this.searchCriteria.id,
+        let fn = this.bookingService.bookingDetailProperty(this.searchCriteria.id,
             this.searchCriteria.arrivalDate,
             this.searchCriteria.departureDate,
-            // moment(+this.searchCriteria.departureDate).format(AppConstant.typeFormat.date),
-            this.searchCriteria.numberOfPAX
-        )
-            .map((resp: any) => {
-                this.hotel = resp.data;
-                this.totalRates = this.hotel.rooms.reduce((a, b) => {
-                    return a + b.rateTypes.length
-                }, 0);
-                this.roomList = _.flatten(_.map(this.hotel.rooms, (room) => {
-                        return _.map(room.rateTypes, (rateType, i) => {
-                            return {
-                                room,
-                                rateType, numRowSpan: !i ? room.rateTypes.length : 0,
-                            }
-                        })
+            this.searchCriteria.numberOfPAX);
+        if (isAndroid) {
+            fn = this.bookingService.bookingDetailProperty(this.searchCriteria.id,
+                moment(this.searchCriteria.arrivalDate, 'YYYY-MM-DD').format(AppConstant.typeFormat.date),
+                moment(this.searchCriteria.departureDate, 'YYYY-MM-DD').format(AppConstant.typeFormat.date),
+                this.searchCriteria.numberOfPAX);
+        }
+        return fn.map((resp: any) => {
+            this.hotel = resp.data;
+            this.totalRates = this.hotel.rooms.reduce((a, b) => {
+                return a + b.rateTypes.length
+            }, 0);
+            this.roomList = _.flatten(_.map(this.hotel.rooms, (room) => {
+                    return _.map(room.rateTypes, (rateType, i) => {
+                        return {
+                            room,
+                            rateType, numRowSpan: !i ? room.rateTypes.length : 0,
+                        }
                     })
-                );
-            })
+                })
+            );
+        })
     }
 
     public goBack() {

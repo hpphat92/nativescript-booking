@@ -159,7 +159,7 @@ export class SearchMainComponent implements OnInit, AfterViewInit {
                     this.form = {
                         ...this.form,
                         arrivalDate: this.parseDate(arrivalDateProp.valueCandidate),
-                        departureDate: moment(+arrivalDateProp.valueCandidate).add(+args.entityProperty.valueCandidate, 'd').format('YYYY-MM-DD'),
+                        departureDate: moment(this.parseDate(arrivalDateProp.valueCandidate), 'YYYY-MM-DD').add(+args.entityProperty.valueCandidate, 'd').format('YYYY-MM-DD'),
                         numberOfNights: 1
                     };
                 }
@@ -192,8 +192,12 @@ export class SearchMainComponent implements OnInit, AfterViewInit {
     }
 
     public parseDate(dateStringOrNumber) {
+        if (isAndroid) {
+            return (moment(+dateStringOrNumber) || moment(dateStringOrNumber)).format('YYYY-MM-DD');
+        } else {
+            return moment(dateStringOrNumber).toDate() ? (moment(+dateStringOrNumber) || moment(dateStringOrNumber)).format('YYYY-MM-DD') : dateStringOrNumber;
+        }
         // This is either number in string or date formatted in string
-        return (moment(+dateStringOrNumber) || moment(dateStringOrNumber)).format('YYYY-MM-DD');
     }
 
     public onEditorUpdate(args) {
