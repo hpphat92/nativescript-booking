@@ -147,11 +147,15 @@ export class SearchMainComponent implements OnInit, AfterViewInit {
         if (propertyName === 'arrivalDate' || propertyName === 'departureDate') {
             if (arrivalDateProp.isValid && departureDateProp.isValid
                 && this.parseDate(departureDateProp.valueCandidate) && this.parseDate(arrivalDateProp.valueCandidate)) {
+                let numberOfNights = moment(departureDateProp.valueCandidate, 'YYYY-MM-DD').diff(moment(arrivalDateProp.valueCandidate, 'YYYY-MM-DD'), 'd');
+                if (isAndroid) {
+                    numberOfNights = moment(this.parseDate(departureDateProp.valueCandidate)).diff(this.parseDate(arrivalDateProp.valueCandidate), 'd');
+                }
                 this.form = {
                     ...this.form,
                     arrivalDate: this.parseDate(arrivalDateProp.valueCandidate),
                     departureDate: this.parseDate(departureDateProp.valueCandidate),
-                    numberOfNights: moment(this.parseDate(departureDateProp.valueCandidate)).diff(this.parseDate(arrivalDateProp.valueCandidate), 'd')
+                    numberOfNights
                 };
                 dataForm.reload();
             } else {
