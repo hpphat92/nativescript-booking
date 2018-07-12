@@ -5,6 +5,7 @@ import { registerElement } from 'nativescript-angular';
 import * as moment from 'moment';
 import * as Toast from 'nativescript-toast';
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
+import { isAndroid, isIOS } from 'platform';
 
 @Component({
     selector: 'search-main-component',
@@ -77,9 +78,9 @@ export class SearchMainComponent implements OnInit {
                 },
             ]
     };
-    form: { arrivalDate: number, departureDate: number, numberOfNights: number, numberOfPAX: number } = {
-        arrivalDate: + new Date(),
-        departureDate: +moment().add(1,'days').toDate(),
+    form: { arrivalDate: string | number, departureDate: string | number, numberOfNights: number, numberOfPAX: number } = {
+        arrivalDate: isAndroid ? +new Date() : moment().format('YYYY-MM-DD'),
+        departureDate: isAndroid ? +moment().add(1, 'days').toDate() : moment().add(1, 'days').format('YYYY-MM-DD'),
         numberOfNights: 1,
         numberOfPAX: 1,
     };
