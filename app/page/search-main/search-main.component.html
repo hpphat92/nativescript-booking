@@ -1,22 +1,32 @@
 <ActionBar title="Tell us about your trip" class="action-bar"></ActionBar>
 
 <ScrollView>
-        <FlexboxLayout flexDirection="column">
+    <FlexboxLayout flexDirection="column">
 
-                <RadDataForm (propertyValidate)="onPropertyValidate($event)"
-                (propertyValidated)="onPropertyValidated($event)"
-                [source]="form"
-                height="400"
-                [metadata]="formMetadata">
-                </RadDataForm>
-                <Button class="btn btn-primary btn-fa-icon"
-                 (tap)="goSearchTrip()">
-                        <FormattedString>
-                                <Span text="&#xf002;&nbsp;" fontFamily="FontAwesome"></Span>
-                                <Span text="Search Trips" ></Span>
-                        </FormattedString>
-                </Button>
-        </FlexboxLayout>
+        <RadDataForm (propertyValidate)="onPropertyValidate($event)"
+                     (editorUpdate)="onEditorUpdate($event)"
+                     (propertyValidated)="onPropertyValidated($event)"
+                     [source]="form"
+                     height="400">
+            <TKEntityProperty tkDataFormProperty name="arrivalDate" displayName="Arrival Date" index="0">
+                <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="departureDate" displayName="Departure Date" index="1">
+                <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="numberOfNights"  displayName="No. Night" index="2">
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="numberOfPAX" displayName="No. PAX" index="3">
+            </TKEntityProperty>
+        </RadDataForm>
+        <Button class="btn btn-primary btn-fa-icon"
+                (tap)="goSearchTrip()">
+            <FormattedString>
+                <Span text="&#xf002;&nbsp;" fontFamily="FontAwesome"></Span>
+                <Span text="Search Trips"></Span>
+            </FormattedString>
+        </Button>
+    </FlexboxLayout>
 </ScrollView>  
 
 

@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as applicationModule from 'tns-core-modules/application';
 import { PropertyValidator } from 'nativescript-ui-dataform';
 import { registerElement } from 'nativescript-angular';
 import * as moment from 'moment';
@@ -7,12 +8,15 @@ import * as Toast from 'nativescript-toast';
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 import { isAndroid, isIOS } from 'platform';
 
+declare var java: any;
+declare var NSDateFormatter: any;
+
 @Component({
     selector: 'search-main-component',
     moduleId: module.id,
     templateUrl: './search-main.component.html',
 })
-export class SearchMainComponent implements OnInit {
+export class SearchMainComponent implements OnInit, AfterViewInit {
 
     @ViewChild(RadDataFormComponent)
     public radDataForm: RadDataFormComponent;
@@ -78,9 +82,9 @@ export class SearchMainComponent implements OnInit {
                 },
             ]
     };
-    form: { arrivalDate: string | number, departureDate: string | number, numberOfNights: number, numberOfPAX: number } = {
-        arrivalDate: isAndroid ? +new Date() : moment().format('YYYY-MM-DD'),
-        departureDate: isAndroid ? +moment().add(1, 'days').toDate() : moment().add(1, 'days').format('YYYY-MM-DD'),
+    form: { arrivalDate: string, departureDate: string, numberOfNights: number, numberOfPAX: number } = {
+        arrivalDate: moment().format('YYYY-MM-DD'),
+        departureDate: moment().add(1, 'd').format('YYYY-MM-DD'),
         numberOfNights: 1,
         numberOfPAX: 1,
     };
@@ -89,6 +93,9 @@ export class SearchMainComponent implements OnInit {
     }
 
     ngOnInit(): void {
+    }
+
+    ngAfterViewInit() {
     }
 
     goSearchTrip() {
@@ -152,19 +159,20 @@ export class SearchMainComponent implements OnInit {
                     this.form = {
                         ...this.form,
                         arrivalDate: this.parseDate(arrivalDateProp.valueCandidate),
-                        departureDate: +moment(this.parseDate(arrivalDateProp.valueCandidate)).add(+args.entityProperty.valueCandidate, 'd').toDate(),
+                        departureDate: moment(+arrivalDateProp.valueCandidate).add(+args.entityProperty.valueCandidate, 'd').format('YYYY-MM-DD'),
                         numberOfNights: 1
                     };
                 }
             }
         }
         if (propertyName === 'numberOfNights') {
+            let numberOfNights = +args.entityProperty.valueCandidate || 0;
             if (arrivalDateProp.isValid && +arrivalDateProp.valueCandidate) {
                 this.form = {
                     ...this.form,
-                    numberOfNights: args.entityProperty.valueCandidate,
+                    numberOfNights,
                     arrivalDate: this.parseDate(arrivalDateProp.valueCandidate),
-                    departureDate: +moment(this.parseDate(arrivalDateProp.valueCandidate)).add(+args.entityProperty.valueCandidate, 'd').toDate(),
+                    departureDate: moment(+arrivalDateProp.valueCandidate).add(numberOfNights, 'd').format('YYYY-MM-DD'),
                 };
                 dataForm.reload();
             }
@@ -185,6 +193,38 @@ export class SearchMainComponent implements OnInit {
 
     public parseDate(dateStringOrNumber) {
         // This is either number in string or date formatted in string
-        return +moment(+dateStringOrNumber) || +moment(dateStringOrNumber)
+        return (moment(+dateStringOrNumber) || moment(dateStringOrNumber)).format('YYYY-MM-DD');
+    }
+
+    public onEditorUpdate(args) {
+        if (args.propertyName == 'numberOfNights' || args.propertyName == 'numberOfPAX') {
+            this.changeEditorSpacing(args.editor);
+        }
+        if (args.propertyName == 'arrivalDate' || args.propertyName == 'departureDate') {
+            this.changeDateFormatting(args.editor);
+        }
+    }
+
+    private changeEditorSpacing(editor) {
+        if (applicationModule.ios) {
+            var labelDef = editor.gridLayout.definitionForView(editor.valueLabel);
+            labelDef.contentOffset = {
+                horizontal: -25,
+                vertical: 0
+            };
+        } else {
+            editor.getHeaderView().setPadding(12, 12, 12, 48);
+        }
+    }
+
+    private changeDateFormatting(editor) {
+        if (applicationModule.ios) {
+            var dateFormatter = NSDateFormatter.alloc().init();
+            dateFormatter.dateFormat = 'yyyy-MM-dd';
+            editor.dateFormatter = dateFormatter;
+        } else {
+            var simpleDateFormat = new java.text.SimpleDateFormat('yyyy-MM-dd', java.util.Locale.US);
+            editor.setDateFormat(simpleDateFormat);
+        }
     }
 }
