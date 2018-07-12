@@ -78,9 +78,9 @@ export class SearchMainComponent implements OnInit {
             ]
     };
     form: { arrivalDate: number, departureDate: number, numberOfNights: number, numberOfPAX: number } = {
-        arrivalDate: null,
-        departureDate: null,
-        numberOfNights: 0,
+        arrivalDate: + new Date(),
+        departureDate: +moment().add(1,'days').toDate(),
+        numberOfNights: 1,
         numberOfPAX: 1,
     };
 
