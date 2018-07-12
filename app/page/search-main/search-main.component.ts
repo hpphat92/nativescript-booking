@@ -147,7 +147,7 @@ export class SearchMainComponent implements OnInit {
                 };
                 dataForm.reload();
             } else {
-                if (arrivalDateProp.isValid && +arrivalDateProp.valueCandidate && !(+departureDateProp.valueCandidate && departureDateProp.isValid)) {
+                if (arrivalDateProp.isValid && this.parseDate(arrivalDateProp.valueCandidate) && !(+departureDateProp.valueCandidate && departureDateProp.isValid)) {
                     this.form = {
                         ...this.form,
                         arrivalDate: +arrivalDateProp.valueCandidate,
