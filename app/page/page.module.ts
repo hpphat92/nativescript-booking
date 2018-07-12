@@ -9,6 +9,8 @@ import { SearchMainComponent } from '~/page/search-main/search-main.component';
 import { SearchResultComponent } from '~/page/search-result/search-result.component';
 import { HotelDetailComponent } from '~/page/hotel-detail/hotel-detail.component';
 import { NativeScriptUIListViewModule } from 'nativescript-ui-listview/angular';
+import { ConfirmBookingComponent } from '~/page/confirm-booking/confirm-booking.component';
+import PageService from '~/page/page.service';
 
 const routers: Routes = [
     {
@@ -22,6 +24,10 @@ const routers: Routes = [
     {
         path: 'hotel-detail',
         component: HotelDetailComponent,
+    },
+    {
+        path: 'confirm-booking',
+        component: ConfirmBookingComponent,
     }
 ];
 
@@ -38,10 +44,12 @@ const routers: Routes = [
         SearchMainComponent,
         SearchResultComponent,
         HotelDetailComponent,
+        ConfirmBookingComponent
     ],
     exports: [
         PageComponent,
-    ]
+    ],
+    providers: [PageService]
 })
 export class PageModule {
 }

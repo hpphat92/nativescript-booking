@@ -8,6 +8,7 @@ import { BookingService } from '~/shared/api';
 import * as _ from 'lodash';
 import { action } from 'tns-core-modules/ui/dialogs';
 import { FilePhotoview } from 'nativescript-file-photoview';
+import PageService from '~/page/page.service';
 
 @Component({
     selector: 'hotel-detail-component',
@@ -30,6 +31,7 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private bookingService: BookingService,
+                private pageService: PageService,
                 private routerExtensions: RouterExtensions) {
         this.subscription = this.route.queryParams.subscribe((e) => {
             this.searchCriteria = e || {};
@@ -73,6 +75,9 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subscription && this.subscription.unsubscribe();
+        if (global.android) {
+            (global as any).gc();
+        }
     }
 
     public choiceRoom(room, roomItem) {
@@ -111,6 +116,7 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
     }
 
     public bookRooms() {
-
+        debugger;
+        this.router.navigate(['confirm-booking']);
     }
 }

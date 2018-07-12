@@ -12,6 +12,11 @@
 			"version": "4.1.1"
 		}
 	},
+	"android": {
+		"v8Flags": "--expose_gc",
+		"memoryCheckInterval": 500,
+		"freeMemoryRatio": 0.5
+	},
 	"scripts": {
 		"generate:api": ".\\bin\\api-generator\\api-generator.sh"
 	},

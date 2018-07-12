@@ -95,6 +95,9 @@ export class SearchResultComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subscription && this.subscription.unsubscribe();
+        if (global.android) {
+            (global as any).gc();
+        }
     }
 
     public onPullToRefreshInitiated(args) {
