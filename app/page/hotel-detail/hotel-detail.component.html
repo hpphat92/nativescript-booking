@@ -2,105 +2,107 @@
     <NavigationButton icon="res://ic_left" text="Back"
                       (tap)="goBack()"></NavigationButton>
 </ActionBar>
-<TabView [(ngModel)]="tabSelectedIndex" class="hotel-detail">
-    <ScrollView *tabItem="{title: 'Information'}">
-        <StackLayout orientation="vertical" width="100%">
-            <Image class="main-photo"
-                   *ngIf="hotel.images && hotel.images.length"
-                   [src]="hotel.images[0]"
-                   stretch="aspectFill"></Image>
-            <!--<ScrollView orientation="horizontal">-->
-            <!--<StackLayout orientation="horizontal" class="scroll-menu">-->
+<StackLayout class="hotel-detail">
+    <TabView [(ngModel)]="tabSelectedIndex">
+        <ScrollView *tabItem="{title: 'Information'}">
+            <StackLayout orientation="vertical" width="100%">
+                <Image class="main-photo"
+                       *ngIf="hotel.images && hotel.images.length"
+                       [src]="hotel.images[0]"
+                       stretch="aspectFill"></Image>
+                <!--<ScrollView orientation="horizontal">-->
+                <!--<StackLayout orientation="horizontal" class="scroll-menu">-->
 
-            <!--</StackLayout>-->
-            <!--</ScrollView>-->
-            <Label class="hotel-name" [text]="hotel.name"></Label>
-            <DockLayout width="100%" stretchLastChild="true">
-                <Label textWrap="true" [text]="hotel.description" class="hotel-description" editable="false"
-                       dock="top">
-                </Label>
-                <WrapLayout dock="top" orientation="horizontal" width="100%" class="facilities-list">
-                    <Label *ngFor="let f of hotel.facilities" class="facility">
-                        <FormattedString>
-                            <Span text="&#xf058;&nbsp;" fontFamily="FontAwesome"></Span>
-                            <Span [text]="f.name"></Span>
-                        </FormattedString>
+                <!--</StackLayout>-->
+                <!--</ScrollView>-->
+                <Label class="hotel-name" [text]="hotel.name"></Label>
+                <DockLayout width="100%" stretchLastChild="true">
+                    <Label textWrap="true" [text]="hotel.description" class="hotel-description" editable="false"
+                           dock="top">
                     </Label>
-                </WrapLayout>
-                <!--<Label text="top" dock="top" backgroundColor="green"></Label>-->
-                <Button text="Book now" class="btn btn-primary" (tap)="goBookingTab()"></Button>
-            </DockLayout>
-        </StackLayout>
-    </ScrollView>
-    <!--<ListView  *tabItem="{title: 'Gallery'}" class="list-group" [items]="hotel.images">-->
-    <!--<ng-template let-item="item">-->
-    <!--<Image [src]="item" class="thumb img-circle"  stretch="aspectFill" verticalAlignment="stretch"></Image>-->
-    <!--</ng-template>-->
-    <!--</ListView>-->
-
-    <ScrollView *tabItem="{title: 'Gallery'}" >
-        <WrapLayout orientation="horizontal">
-            <Image [src]="photo" (tap)="viewPhoto(idx)"
-                   height="220"
-                   *ngFor="let photo of hotel.images, let idx = index"></Image>
-        </WrapLayout>
-    </ScrollView>
-    <ScrollView *tabItem="{title: 'Rooms'}" class="room-type-list">
-        <StackLayout>
-            <ng-template [ngIf]="hotel">
-                <FlexboxLayout flexDirection="column" class="room-type-container"
-                               *ngFor="let room of hotel.rooms">
-                    <Label class="room-type-name" [text]="room.name"></Label>
-                    <WrapLayout class="room-type-facilities-container">
-                        <Label *ngFor="let f of room.facilities" class="facility">
+                    <WrapLayout dock="top" orientation="horizontal" width="100%" class="facilities-list">
+                        <Label *ngFor="let f of hotel.facilities" class="facility">
                             <FormattedString>
                                 <Span text="&#xf058;&nbsp;" fontFamily="FontAwesome"></Span>
                                 <Span [text]="f.name"></Span>
                             </FormattedString>
                         </Label>
                     </WrapLayout>
-                    <Label class="room-type-description" textWrap="true" [text]="room.description"></Label>
-                    <StackLayout class="room-type-list-container">
-                        <FlexboxLayout class="select-room-type-amount" flexDirection="row"
-                                       alignItems="center"
-                                       justifyContent="space-between"
-                                       *ngFor="let r of room.rateTypes">
-                            <StackLayout>
-                                <Label class="room-type-name" [text]="r.name"></Label>
-                                <Label>
-                                    <FormattedString *ngIf="r.capability<3" class="capacity">
+                    <!--<Label text="top" dock="top" backgroundColor="green"></Label>-->
+                    <Button text="Book now" class="btn btn-primary" (tap)="goBookingTab()"></Button>
+                </DockLayout>
+            </StackLayout>
+        </ScrollView>
+        <!--<ListView  *tabItem="{title: 'Gallery'}" class="list-group" [items]="hotel.images">-->
+        <!--<ng-template let-item="item">-->
+        <!--<Image [src]="item" class="thumb img-circle"  stretch="aspectFill" verticalAlignment="stretch"></Image>-->
+        <!--</ng-template>-->
+        <!--</ListView>-->
+
+        <ScrollView *tabItem="{title: 'Gallery'}" >
+            <WrapLayout orientation="horizontal">
+                <Image [src]="photo" (tap)="viewPhoto(idx)"
+                       height="240"
+                       *ngFor="let photo of hotel.images, let idx = index"></Image>
+            </WrapLayout>
+        </ScrollView>
+        <ScrollView *tabItem="{title: 'Rooms'}" class="room-type-list">
+            <StackLayout>
+                <ng-template [ngIf]="hotel">
+                    <FlexboxLayout flexDirection="column" class="room-type-container"
+                                   *ngFor="let room of hotel.rooms">
+                        <Label class="room-type-name" [text]="room.name"></Label>
+                        <WrapLayout class="room-type-facilities-container">
+                            <Label *ngFor="let f of room.facilities" class="facility">
+                                <FormattedString>
+                                    <Span text="&#xf058;&nbsp;" fontFamily="FontAwesome"></Span>
+                                    <Span [text]="f.name"></Span>
+                                </FormattedString>
+                            </Label>
+                        </WrapLayout>
+                        <Label class="room-type-description" textWrap="true" [text]="room.description"></Label>
+                        <StackLayout class="room-type-list-container">
+                            <FlexboxLayout class="select-room-type-amount" flexDirection="row"
+                                           alignItems="center"
+                                           justifyContent="space-between"
+                                           *ngFor="let r of room.rateTypes">
+                                <StackLayout>
+                                    <Label class="room-type-name" [text]="r.name"></Label>
+                                    <Label>
+                                        <FormattedString *ngIf="r.capability<3" class="capacity">
                                         <Span *ngIf="r.capability>0" text="&#xf007;&nbsp;"
                                               fontFamily="FontAwesome"></Span>
-                                        <Span *ngIf="r.capability>1" text="&#xf007;&nbsp;"
-                                              fontFamily="FontAwesome"></Span>
-                                    </FormattedString>
-                                    <FormattedString *ngIf="r.capability>=3" class="capacity">
+                                            <Span *ngIf="r.capability>1" text="&#xf007;&nbsp;"
+                                                  fontFamily="FontAwesome"></Span>
+                                        </FormattedString>
+                                        <FormattedString *ngIf="r.capability>=3" class="capacity">
                                                 <Span fontFamily="FontAwesome"
                                                       text="&#xf007;&nbsp;x {{r.capability}}"></Span>
-                                    </FormattedString>
-                                </Label>
-                                <Label class="price" [text]="r.rate | currency: 'USD': '$'"></Label>
-                            </StackLayout>
-                            <Label class="selected-amount" (tap)="choiceRoom(r, selectedAmountItem)"
-                                   #selectedAmountItem
-                                   text="--Choice Amount--"></Label>
-                        </FlexboxLayout>
-                    </StackLayout>
-                </FlexboxLayout>
-            </ng-template>
-            <Label class="text-right total-price">
-                <FormattedString>
-                    <Span class="title" text="Total: "></Span>
-                    <Span [text]="totalPrice | currency: 'USD': '$'"></Span>
-                </FormattedString>
-            </Label>
-            <StackLayout class="more-description text-center">
-                <Label text="No booking or credit card fees!"></Label>
-                <Label text="Confirmation is immediate"></Label>
-                <Label text="No registration required"></Label>
+                                        </FormattedString>
+                                    </Label>
+                                    <Label class="price" [text]="r.rate | currency: 'USD': '$'"></Label>
+                                </StackLayout>
+                                <Label class="selected-amount" (tap)="choiceRoom(r, selectedAmountItem)"
+                                       #selectedAmountItem
+                                       text="--Choice Amount--"></Label>
+                            </FlexboxLayout>
+                        </StackLayout>
+                    </FlexboxLayout>
+                </ng-template>
+                <Label class="text-right total-price">
+                    <FormattedString>
+                        <Span class="title" text="Total: "></Span>
+                        <Span [text]="totalPrice | currency: 'USD': '$'"></Span>
+                    </FormattedString>
+                </Label>
+                <StackLayout class="more-description text-center">
+                    <Label text="No booking or credit card fees!"></Label>
+                    <Label text="Confirmation is immediate"></Label>
+                    <Label text="No registration required"></Label>
+                </StackLayout>
+                <Button text="Reserve Booking" class="btn btn-primary" (tap)="bookRooms()"></Button>
             </StackLayout>
-            <Button text="Reserve Booking" class="btn btn-primary" (tap)="bookRooms()"></Button>
-        </StackLayout>
 
-    </ScrollView>
-</TabView>
+        </ScrollView>
+    </TabView>
+</StackLayout>

@@ -1,4 +1,4 @@
-<ActionBar title="Search result" class="action-bar">
+<ActionBar title="Search result 2" class="action-bar">
     <NavigationButton icon="res://ic_left" text="Back"
                       (tap)="goBack()"></NavigationButton>
 </ActionBar>
@@ -21,7 +21,7 @@
                                    justifyContent="center">
                         <Label [text]="item.name" class="list-group-item-heading-item"
                                verticalAlignment="center"></Label>
-                        <Label [text]="item.description" class="list-group-item-text"></Label>
+                        <Label [text]="item.description" class="list-group-item-text-item"></Label>
                         <Label class="price" [text]="item.minPrice | currency: 'USD': '$'"></Label>
                     </FlexboxLayout>
                 </FlexboxLayout>
