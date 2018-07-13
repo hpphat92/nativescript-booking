@@ -47,31 +47,26 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
     }
 
     public getHotelDetail() {
-        let fn = this.bookingService.bookingDetailProperty(this.searchCriteria.id,
-            this.searchCriteria.arrivalDate,
-            this.searchCriteria.departureDate,
-            this.searchCriteria.numberOfPAX);
-        if (isAndroid) {
-            fn = this.bookingService.bookingDetailProperty(this.searchCriteria.id,
-                moment(this.searchCriteria.arrivalDate, 'YYYY-MM-DD').format(AppConstant.typeFormat.date),
-                moment(this.searchCriteria.departureDate, 'YYYY-MM-DD').format(AppConstant.typeFormat.date),
-                this.searchCriteria.numberOfPAX);
-        }
-        return fn.map((resp: any) => {
-            this.hotel = resp.data;
-            this.totalRates = this.hotel.rooms.reduce((a, b) => {
-                return a + b.rateTypes.length
-            }, 0);
-            this.roomList = _.flatten(_.map(this.hotel.rooms, (room) => {
-                    return _.map(room.rateTypes, (rateType, i) => {
-                        return {
-                            room,
-                            rateType, numRowSpan: !i ? room.rateTypes.length : 0,
-                        }
+        this.bookingService.bookingDetailProperty(
+            this.searchCriteria.id,
+            moment(this.searchCriteria.arrivalDate, 'YYYY-MM-DD').format(AppConstant.typeFormat.date),
+            moment(this.searchCriteria.departureDate, 'YYYY-MM-DD').format(AppConstant.typeFormat.date),
+            this.searchCriteria.numberOfPAX)
+            .map((resp: any) => {
+                this.hotel = resp.data;
+                this.totalRates = this.hotel.rooms.reduce((a, b) => {
+                    return a + b.rateTypes.length
+                }, 0);
+                this.roomList = _.flatten(_.map(this.hotel.rooms, (room) => {
+                        return _.map(room.rateTypes, (rateType, i) => {
+                            return {
+                                room,
+                                rateType, numRowSpan: !i ? room.rateTypes.length : 0,
+                            }
+                        })
                     })
-                })
-            );
-        })
+                );
+            })
     }
 
     public goBack() {
