@@ -40,17 +40,18 @@
         <!--<Image [src]="item" class="thumb img-circle"  stretch="aspectFill" verticalAlignment="stretch"></Image>-->
         <!--</ng-template>-->
         <!--</ListView>-->
-        <ListView *tabItem="{title: 'Gallery'}" class="list-group" [items]="hotel.images">
-            <ng-template let-photo="item">
-                <!--<FlexboxLayout flexDirection="row">-->
-                    <Image [src]="photo" (tap)="viewPhoto(photo)" stretch="aspectFill"></Image>
-                <!--</FlexboxLayout>-->
-            </ng-template>
-        </ListView>
+
+       <ScrollView *tabItem="{title: 'Gallery'}" >
+           <WrapLayout orientation="horizontal">
+               <Image [src]="photo" (tap)="viewPhoto(photo)"
+                      *ngFor="let photo of hotel.images, let idx = index"></Image>
+           </WrapLayout>
+       </ScrollView>
         <ScrollView *tabItem="{title: 'Rooms'}" class="room-type-list">
             <StackLayout>
                 <ng-template [ngIf]="hotel">
-                    <FlexboxLayout flexDirection="column" class="room-type-container" *ngFor="let room of hotel.rooms">
+                    <FlexboxLayout flexDirection="column" class="room-type-container"
+                                   *ngFor="let room of hotel.rooms">
                         <Label class="room-type-name" [text]="room.name"></Label>
                         <WrapLayout class="room-type-facilities-container">
                             <Label *ngFor="let f of room.facilities" class="facility">
@@ -75,8 +76,9 @@
                                             <Span *ngIf="r.capability>1" text="&#xf007;&nbsp;"
                                                   fontFamily="FontAwesome"></Span>
                                         </FormattedString>
-                                        <FormattedString *ngIf="r.capability>=3"  class="capacity">
-                                            <Span fontFamily="FontAwesome" text="&#xf007;&nbsp;x {{r.capability}}"></Span>
+                                        <FormattedString *ngIf="r.capability>=3" class="capacity">
+                                                <Span fontFamily="FontAwesome"
+                                                      text="&#xf007;&nbsp;x {{r.capability}}"></Span>
                                         </FormattedString>
                                     </Label>
                                     <Label class="price" [text]="r.rate | currency: 'USD': '$'"></Label>
