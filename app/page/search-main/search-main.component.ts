@@ -4,6 +4,7 @@ import * as applicationModule from 'tns-core-modules/application';
 import { PropertyValidator } from 'nativescript-ui-dataform';
 import { registerElement } from 'nativescript-angular';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 import * as Toast from 'nativescript-toast';
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 import { isAndroid, isIOS } from 'platform';
@@ -157,7 +158,7 @@ export class SearchMainComponent implements OnInit, AfterViewInit {
                     departureDate: this.parseDate(departureDateProp.valueCandidate),
                     numberOfNights
                 };
-                dataForm.reload();
+                _.extend(dataForm.source, this.form);
             } else {
                 if (arrivalDateProp.isValid && this.parseDate(arrivalDateProp.valueCandidate) && !(this.parseDate(departureDateProp.valueCandidate) && departureDateProp.isValid)) {
                     this.form = {
@@ -166,6 +167,7 @@ export class SearchMainComponent implements OnInit, AfterViewInit {
                         departureDate: moment(this.parseDate(arrivalDateProp.valueCandidate), 'YYYY-MM-DD').add(+args.entityProperty.valueCandidate, 'd').format('YYYY-MM-DD'),
                         numberOfNights: 1
                     };
+                    _.extend(dataForm.source, this.form);
                 }
             }
         }
@@ -178,21 +180,9 @@ export class SearchMainComponent implements OnInit, AfterViewInit {
                     arrivalDate: this.parseDate(arrivalDateProp.valueCandidate),
                     departureDate: moment(+arrivalDateProp.valueCandidate).add(numberOfNights, 'd').format('YYYY-MM-DD'),
                 };
-                dataForm.reload();
+                _.extend(dataForm.source, this.form);
             }
         }
-        // if (propertyName === 'password') {
-        //     const dataForm = args.object;
-        //     const password2 = dataForm.getPropertyByName('password2');
-        //     const password1 = args.entityProperty;
-        //     if (password2.valueCandidate !== '') {
-        //         if (password1.valueCandidate !== password2.valueCandidate) {
-        //             dataForm.notifyValidated('password2', false);
-        //         } else {
-        //             dataForm.notifyValidated('password2', true);
-        //         }
-        //     }
-        // }
     }
 
     public parseDate(dateStringOrNumber) {
