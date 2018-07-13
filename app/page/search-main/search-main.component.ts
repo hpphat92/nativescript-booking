@@ -173,12 +173,13 @@ export class SearchMainComponent implements OnInit, AfterViewInit {
         }
         if (propertyName === 'numberOfNights') {
             let numberOfNights = +args.entityProperty.valueCandidate || 0;
-            if (arrivalDateProp.isValid && +arrivalDateProp.valueCandidate) {
+            if (arrivalDateProp.isValid && (isAndroid ? +arrivalDateProp.valueCandidate : +moment(arrivalDateProp.valueCandidate, 'YYYY-MM-DD'))) {
                 this.form = {
                     ...this.form,
                     numberOfNights,
                     arrivalDate: this.parseDate(arrivalDateProp.valueCandidate),
-                    departureDate: moment(+arrivalDateProp.valueCandidate).add(numberOfNights, 'd').format('YYYY-MM-DD'),
+                    departureDate: moment(this.parseDate(arrivalDateProp.valueCandidate), 'YYYY-MM-DD').add(+args.entityProperty.valueCandidate, 'd').format('YYYY-MM-DD'),
+                    // departureDate: moment(+arrivalDateProp.valueCandidate).add(numberOfNights, 'd').format('YYYY-MM-DD'),
                 };
                 _.extend(dataForm.source, this.form);
             }
