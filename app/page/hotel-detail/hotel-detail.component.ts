@@ -47,7 +47,7 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
     }
 
     public getHotelDetail() {
-        this.bookingService.bookingDetailProperty(
+        return this.bookingService.bookingDetailProperty(
             this.searchCriteria.id,
             moment(this.searchCriteria.arrivalDate, 'YYYY-MM-DD').format(AppConstant.typeFormat.date),
             moment(this.searchCriteria.departureDate, 'YYYY-MM-DD').format(AppConstant.typeFormat.date),
