@@ -10,6 +10,9 @@ import { action } from 'tns-core-modules/ui/dialogs';
 import { FilePhotoview } from 'nativescript-file-photoview';
 import PageService from '~/page/page.service';
 import { isAndroid, isIOS } from 'platform';
+import 'nativescript-photoviewer';
+
+declare var PhotoViewer: any;
 
 @Component({
     selector: 'hotel-detail-component',
@@ -40,7 +43,14 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
 
             })
         });
-        this.filePhotoView = new FilePhotoview();
+        this.filePhotoView = new PhotoViewer();
+        this.filePhotoView.fontFamily = 'Avenir-Roman';
+        this.filePhotoView.titleFontSize = 20;
+        this.filePhotoView.summaryFontSize = 16;
+        this.filePhotoView.creditFontSize = 14;
+        this.filePhotoView.paletteType = 'LIGHT_MUTED'; // Android only
+        this.filePhotoView.showAlbum = true; // Android only (true = shows album first, false = shows fullscreen gallery directly)
+        this.filePhotoView.startIndex = 0; // start index for the fullscreen gallery
     }
 
     ngOnInit(): void {
@@ -106,9 +116,10 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
         }, 0);
     }
 
-    public viewPhoto(imgUrl) {
+    public viewPhoto(idx) {
         // Display the photo
-        this.filePhotoView.show(imgUrl);
+        this.filePhotoView.photoViewer = idx;
+        this.filePhotoView.showViewer(this.hotel.images);
     }
 
     public goBookingTab() {

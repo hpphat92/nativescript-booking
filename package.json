@@ -36,6 +36,7 @@
 		"nativescript-file-photoview": "^0.1.5",
 		"nativescript-fontawesome": "^1.0.0",
 		"nativescript-ngx-fonticon": "^4.2.0",
+		"nativescript-photoviewer": "^1.4.0",
 		"nativescript-pulltorefresh": "^2.1.1",
 		"nativescript-splashscreen": "^2.3.0",
 		"nativescript-theme-core": "~1.0.4",

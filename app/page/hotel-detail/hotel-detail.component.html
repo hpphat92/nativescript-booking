@@ -43,7 +43,7 @@
 
        <ScrollView *tabItem="{title: 'Gallery'}" >
            <WrapLayout orientation="horizontal">
-               <Image [src]="photo" (tap)="viewPhoto(photo)"
+               <Image [src]="photo" (tap)="viewPhoto(idx)"
                       *ngFor="let photo of hotel.images, let idx = index"></Image>
            </WrapLayout>
        </ScrollView>
