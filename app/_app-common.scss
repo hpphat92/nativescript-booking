@@ -29,7 +29,7 @@ html, body {
       border-radius: 0;
       margin: 0;
     }
-    .list-group-item-heading {
+    .list-group-item-heading-item {
       color: #000;
     }
     .price {
@@ -39,8 +39,7 @@ html, body {
       display: inline-block;
     }
     .main-content {
-      padding: 20px 0 20px 12px;
-
+      padding-left: 20px;
     }
 
   }

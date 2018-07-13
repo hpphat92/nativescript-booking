@@ -15,11 +15,11 @@
             <!--<PullToRefresh (refresh)="onRefresh($event)">-->
             <!--<ListView class="list-group" [items]="listData" (itemTap)="onItemTap($event)">-->
             <ng-template let-item="item" tkListItemTemplate>
-                <FlexboxLayout justifyContent="center" height="220" flexDirection="row" class="list-group-item">
+                <FlexboxLayout justifyContent="center" height="120" flexDirection="row" class="list-group-item">
                     <Image [src]="item.image" class="main-photo img-circle" stretch="aspectFill"></Image>
                     <FlexboxLayout flexGrow="1" class="main-content" flexDirection="column"
                                    justifyContent="center">
-                        <Label [text]="item.name" class="list-group-item-heading"
+                        <Label [text]="item.name" class="list-group-item-heading-item"
                                verticalAlignment="center"></Label>
                         <Label [text]="item.description" class="list-group-item-text"></Label>
                         <Label class="price" [text]="item.minPrice | currency: 'USD': '$'"></Label>
