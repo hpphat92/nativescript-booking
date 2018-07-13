@@ -21,6 +21,7 @@ html, body {
     height: 100%;
   }
   .list-group-item {
+    max-height: 240px;
     .main-photo {
       height: 220px;
       min-width: 300px;
@@ -35,6 +36,9 @@ html, body {
     .list-group-item-text-item {
       color: #aaa;
       font-size: 14px;
+      min-height: 70px;
+      max-height: 70px;
+      height: 70px;
     }
     .price {
       font-size: 18px;
