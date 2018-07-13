@@ -48,7 +48,7 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
         this.filePhotoView.summaryFontSize = 16;
         this.filePhotoView.creditFontSize = 14;
         this.filePhotoView.paletteType = 'LIGHT_MUTED'; // Android only
-        this.filePhotoView.showAlbum = true; // Android only (true = shows album first, false = shows fullscreen gallery directly)
+        this.filePhotoView.showAlbum = false; // Android only (true = shows album first, false = shows fullscreen gallery directly)
         this.filePhotoView.startIndex = 0; // start index for the fullscreen gallery
     }
 
@@ -117,7 +117,7 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
 
     public viewPhoto(idx) {
         // Display the photo
-        this.filePhotoView.photoViewer = idx;
+        this.filePhotoView.startIndex = idx;
         this.filePhotoView.showViewer(this.hotel.images);
     }
 
