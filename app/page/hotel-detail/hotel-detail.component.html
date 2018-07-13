@@ -40,11 +40,11 @@
         <!--<Image [src]="item" class="thumb img-circle"  stretch="aspectFill" verticalAlignment="stretch"></Image>-->
         <!--</ng-template>-->
         <!--</ListView>-->
-        <ListView *tabItem="{title: 'Gallery'}" class="list-group" [items]="hotel.images" style="height:1250px">
-            <ng-template let-country="item">
-                <FlexboxLayout flexDirection="row">
-                    <Image [src]="country" (tap)="viewPhoto(country)"></Image>
-                </FlexboxLayout>
+        <ListView *tabItem="{title: 'Gallery'}" class="list-group" [items]="hotel.images">
+            <ng-template let-photo="item">
+                <!--<FlexboxLayout flexDirection="row">-->
+                    <Image [src]="photo" (tap)="viewPhoto(photo)" stretch="aspectFill"></Image>
+                <!--</FlexboxLayout>-->
             </ng-template>
         </ListView>
         <ScrollView *tabItem="{title: 'Rooms'}" class="room-type-list">
