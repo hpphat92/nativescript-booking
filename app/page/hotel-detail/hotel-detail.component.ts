@@ -10,9 +10,8 @@ import { action } from 'tns-core-modules/ui/dialogs';
 import { FilePhotoview } from 'nativescript-file-photoview';
 import PageService from '~/page/page.service';
 import { isAndroid, isIOS } from 'platform';
-import 'nativescript-photoviewer';
 
-declare var PhotoViewer: any;
+let PhotoViewer = require('nativescript-photoviewer');
 
 @Component({
     selector: 'hotel-detail-component',
