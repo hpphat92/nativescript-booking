@@ -1,9 +1,9 @@
+<ActionBar title="Search result" class="action-bar">
+    <NavigationButton icon="res://ic_left" text="Back"
+                      (tap)="goBack()"></NavigationButton>
+</ActionBar>
 <ScrollView class="search-result">
     <StackLayout class="home-panel">
-        <ActionBar title="Search result" class="action-bar">
-            <NavigationButton icon="res://ic_left" text="Back"
-                              (tap)="goBack()"></NavigationButton>
-        </ActionBar>
         <ActivityIndicator row="2" *ngIf="busy" busy="true" width="50" height="50"
                            class="activity-indicator"></ActivityIndicator>
         <Label *ngIf="(!listData || !listData.length) && !busy" text="No results" class="text-center"></Label>
