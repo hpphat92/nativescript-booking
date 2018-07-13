@@ -1,8 +1,10 @@
 @import 'app-common';
 @import '~nativescript-theme-core/scss/platforms/index.ios';
 
-\
+.search-result {
+  padding-top: 200px;
+}
 
 .hotel-detail {
-  margin-bottom: 120px;
+  padding-top: 200px;
 }
