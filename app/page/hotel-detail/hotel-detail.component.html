@@ -43,6 +43,7 @@
             <WrapLayout orientation="horizontal">
                 <Image [src]="photo" (tap)="viewPhoto(idx)"
                        height="240"
+                       stretch="aspectFill"
                        *ngFor="let photo of hotel.images, let idx = index"></Image>
             </WrapLayout>
         </ScrollView>
