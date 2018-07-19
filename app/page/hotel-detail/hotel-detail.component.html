@@ -49,12 +49,14 @@
         </ScrollView>
         <ScrollView *tabItem="{title: 'Add-ons'}" [visibility]="(hotel && hotel.addOns && hotel.addOns.length)? 'visible' : 'collapsed'"
                     class="hotel-detail-addon">
-            <StackLayout>
+            <FlexboxLayout flexDirection="column">
+
                 <RadListView [items]="hotel.addOns"
+                            flexGrow="1"
                              row="1" selectionBehavior="Press"
                              multipleSelection="true"
                              (itemSelected)="onItemSelected($event)"
-                             class="list-group" style="height: 100%">
+                             class="list-group" style="height: 1000px">
                     <!--<PullToRefresh (refresh)="onRefresh($event)">-->
                     <!--<ListView class="list-group" [items]="listData" (itemTap)="onItemTap($event)">-->
                     <ng-template let-item="item" tkListItemTemplate>
@@ -70,7 +72,7 @@
                     </ng-template>
                 </RadListView>
                 <Button text="Choice Rooms" class="btn btn-primary" (tap)="goChoiceRooms()"></Button>
-            </StackLayout>
+            </FlexboxLayout>
         </ScrollView>
         <ScrollView *tabItem="{title: 'Rooms'}" class="room-type-list">
             <StackLayout>
