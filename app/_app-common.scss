@@ -14,7 +14,16 @@
   //font-family: 'Lobster', cursive;
   font-family: 'Source Sans Pro', sans-serif;
 }
-
+.hotel-detail-addon {
+  .main-photo {
+    height: 220px;
+    min-width: 200px;
+    width: 200px;
+    max-width: 200px;
+    border-radius: 0;
+    margin: 0;
+  }
+}
 .search-result, .hotel-detail-addon {
   .home-panel {
     height: 100%;
