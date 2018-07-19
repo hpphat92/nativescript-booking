@@ -5,7 +5,16 @@
   padding-top: 100px;
   margin-top: 100px;
 }
-
+.hotel-detail {
+  .hotel-detail-addon {
+    .main-photo{
+      margin-left: 40px; 
+      width: 200px !important;
+      max-width: 200px !important;
+      min-width: 200px !important;
+    }
+  }
+}
 //.hotel-detail {
 //  margin-top: 100px;
 //}

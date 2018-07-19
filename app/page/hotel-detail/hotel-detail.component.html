@@ -61,7 +61,7 @@
                     <!--<ListView class="list-group" [items]="listData" (itemTap)="onItemTap($event)">-->
                     <ng-template let-item="item" tkListItemTemplate>
                         <FlexboxLayout justifyContent="center" height="120" flexDirection="row" class="list-group-item">
-                            <Image [src]="item.imageUrl" class="main-photo img-circle" stretch="aspectFill"></Image>
+                            <Image [src]="item.imageUrl" class="main-photo img-circle" stretch="aspectFit"></Image>
                             <FlexboxLayout flexGrow="1" class="main-content" flexDirection="column"
                                            justifyContent="center">
                                 <Label [text]="item.name" class="list-group-item-heading-item"
