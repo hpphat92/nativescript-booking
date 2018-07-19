@@ -150,7 +150,7 @@ export class ConfirmBookingComponent {
             timedOut && clearTimeout(timedOut);
             setTimeout(() => {
                 cb && cb();
-            }, 300);
+            }, 1000);
             this.progressValue = 100;
         }
     }

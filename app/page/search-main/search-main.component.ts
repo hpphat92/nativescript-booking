@@ -9,6 +9,7 @@ import * as Toast from 'nativescript-toast';
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 import { isAndroid, isIOS } from 'platform';
 import { BarcodeScanner } from 'nativescript-barcodescanner';
+import { Page } from 'ui/page';
 
 declare var java: any;
 declare var NSDateFormatter: any;
@@ -30,6 +31,7 @@ export class SearchMainComponent implements OnInit, AfterViewInit {
     };
 
     constructor(private router: Router,
+                private page: Page,
                 private barcodeScanner: BarcodeScanner) {
     }
 
