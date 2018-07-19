@@ -1,34 +1,40 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NgModuleFactoryLoader } from '@angular/core';
 import { PageComponent } from '~/page/page.component';
-import { Routes } from '@angular/router';
-import { NativeScriptRouterModule } from 'nativescript-angular';
+import { NativeScriptRouterModule, NSModuleFactoryLoader } from 'nativescript-angular';
 import { NativeScriptUIDataFormModule } from 'nativescript-ui-dataform/angular';
 import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
-import { SearchMainComponent } from '~/page/search-main/search-main.component';
-import { SearchResultComponent } from '~/page/search-result/search-result.component';
-import { HotelDetailComponent } from '~/page/hotel-detail/hotel-detail.component';
 import { NativeScriptUIListViewModule } from 'nativescript-ui-listview/angular';
-import { ConfirmBookingComponent } from '~/page/confirm-booking/confirm-booking.component';
 import PageService from '~/page/page.service';
+import { Routes } from '@angular/router';
+import { ReviewBookingModule } from '~/page/review-booking/review-booking.module';
 
 const routers: Routes = [
     {
         path: '',
-        component: SearchMainComponent,
+        loadChildren: './page/search-main/search-main.module#SearchMainModule'
     },
     {
         path: 'search-result',
-        component: SearchResultComponent,
+        loadChildren: './page/search-result/search-result.module#SearchResultModule'
     },
     {
         path: 'hotel-detail',
-        component: HotelDetailComponent,
+        loadChildren: './page/hotel-detail/hotel-detail.module#HotelDetailModule'
+
     },
     {
         path: 'confirm-booking',
-        component: ConfirmBookingComponent,
-    }
+        loadChildren: './page/confirm-booking/confirm-booking.module#ConfirmBookingModule'
+    },
+    {
+        path: 'booking-detail/:id',
+        loadChildren: './page/booking-detail/booking-detail.module#BookingDetailModule'
+    },
+    {
+        path: 'review-booking',
+        loadChildren: './page/review-booking/review-booking.module#ReviewBookingModule'
+    },
 ];
 
 @NgModule({
@@ -37,19 +43,17 @@ const routers: Routes = [
         NativeScriptModule,
         NativeScriptUIDataFormModule,
         NativeScriptFormsModule,
-        NativeScriptRouterModule.forChild(routers)
+        NativeScriptRouterModule.forChild(routers),
     ],
     declarations: [
         PageComponent,
-        SearchMainComponent,
-        SearchResultComponent,
-        HotelDetailComponent,
-        ConfirmBookingComponent
     ],
     exports: [
         PageComponent,
     ],
-    providers: [PageService]
+    providers: [
+        PageService,
+    ]
 })
 export class PageModule {
 }

@@ -1,4 +1,6 @@
-<ActionBar title="Tell us about your trip" class="action-bar"></ActionBar>
+<ActionBar title="Tell us about your trip" class="action-bar">
+    <ActionItem ios.position="right" ios.systemIcon="12" icon="res://ic_qr_scanner" (tap)="scanBarcode()"></ActionItem>
+</ActionBar>
 
 <ScrollView>
     <FlexboxLayout flexDirection="column">
@@ -7,7 +9,7 @@
                      (editorUpdate)="onEditorUpdate($event)"
                      (propertyValidated)="onPropertyValidated($event)"
                      [source]="form"
-                     height="400">
+                     height="250">
             <TKEntityProperty tkDataFormProperty name="arrivalDate" displayName="Arrival Date" index="0">
                 <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
             </TKEntityProperty>

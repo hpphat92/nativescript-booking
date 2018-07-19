@@ -29,6 +29,7 @@ export interface ConversationDTO {
     relayToAddress?: string;
     relayLinkComplete?: boolean;
     conversationStatusId?: string;
+    forceCreate?: boolean;
     id?: string;
     createdTime?: Date;
     updatedTime?: Date;

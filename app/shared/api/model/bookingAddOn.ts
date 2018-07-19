@@ -9,6 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { InventoryBookingAddOns } from './inventoryBookingAddOns';
 import { InventoryItemContainer } from './inventoryItemContainer';
 
 
@@ -18,6 +19,7 @@ export interface BookingAddOn {
     imageUrl?: string;
     containerId?: string;
     inventoryItemContainer?: InventoryItemContainer;
+    inventoryBookingAddOns?: Array<InventoryBookingAddOns>;
     id?: string;
     createdTime?: Date;
     updatedTime?: Date;

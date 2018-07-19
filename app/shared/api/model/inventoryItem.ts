@@ -9,7 +9,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { InventoryBooking } from './inventoryBooking';
 import { InventoryItemAvailability } from './inventoryItemAvailability';
 import { InventoryItemContainer } from './inventoryItemContainer';
 import { InventoryItemFacility } from './inventoryItemFacility';
@@ -29,7 +28,6 @@ export interface InventoryItem {
     container?: InventoryItemContainer;
     type?: InventoryItemType;
     inventoryItemAvailabilities?: Array<InventoryItemAvailability>;
-    inventoryBookings?: Array<InventoryBooking>;
     facilities?: Array<InventoryItemFacility>;
     rateTypes?: Array<InventoryItemRateTypes>;
     id?: string;

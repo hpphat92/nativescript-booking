@@ -9,22 +9,31 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { InventoryBookingAddOns } from './inventoryBookingAddOns';
+import { InventoryBookingDetail } from './inventoryBookingDetail';
 import { InventoryBookingEvent } from './inventoryBookingEvent';
-import { InventoryItem } from './inventoryItem';
+import { InventoryItemContainer } from './inventoryItemContainer';
+import { User } from './user';
 
 
 export interface InventoryBooking {
+    containerId?: string;
     userId?: string;
-    note?: string;
     bookingSourceName?: string;
     totalCost?: number;
     currency?: string;
     bookingSource?: InventoryBooking.BookingSourceEnum;
     status?: InventoryBooking.StatusEnum;
     paymentMethod?: InventoryBooking.PaymentMethodEnum;
-    inventoryItemId?: string;
-    inventoryItem?: InventoryItem;
+    arrivalTime?: Date;
+    checkInDate?: Date;
+    checkOutDate?: Date;
+    remarks?: string;
+    container?: InventoryItemContainer;
+    user?: User;
     events?: Array<InventoryBookingEvent>;
+    inventoryBookingAddOns?: Array<InventoryBookingAddOns>;
+    inventoryBookingDetails?: Array<InventoryBookingDetail>;
     id?: string;
     createdTime?: Date;
     updatedTime?: Date;

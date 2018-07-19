@@ -33,6 +33,7 @@
 		"lodash": "^4.17.10",
 		"moment": "^2.22.2",
 		"nativescript-angular": "~5.2.0",
+		"nativescript-barcodescanner": "^2.7.7",
 		"nativescript-file-photoview": "^0.1.5",
 		"nativescript-fontawesome": "^1.0.0",
 		"nativescript-ngx-fonticon": "^4.2.0",

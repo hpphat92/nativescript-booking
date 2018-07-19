@@ -7,13 +7,15 @@
 @import '~nativescript-theme-core/scss/index';
 @import "assets/font-awesome.css";
 @import "https://fonts.googleapis.com/css?family=Source+Sans+Pro";
+@import "https://fonts.googleapis.com/css?family=Lobster";
 // Place any CSS rules you want to apply on both iOS and Android here.
 // This is where the vast majority of your CSS code goes.
-html, body {
+* {
+  //font-family: 'Lobster', cursive;
   font-family: 'Source Sans Pro', sans-serif;
 }
 
-.search-result {
+.search-result, .hotel-detail-addon {
   .home-panel {
     height: 100%;
   }
@@ -50,6 +52,31 @@ html, body {
       padding-left: 20px;
     }
 
+  }
+}
+
+.booking-detail-container {
+  .general-info-row {
+    padding: 10px 20px;
+    height: 100px;
+    &.split {
+      margin-top: 50px;
+    }
+    &.height {
+      height: 200px;
+    }
+  }
+  .hotel-detail-container {
+    .hotel-name {
+      font-size: 20px;
+      text-align: center;
+      color: #1a009c;
+      font-weight: bold;
+    }
+    .address {
+      text-align: center;
+      color: #888;
+    }
   }
 }
 

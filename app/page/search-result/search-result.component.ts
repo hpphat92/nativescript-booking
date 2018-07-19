@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import AppConstant from '~/app.constant';
 import 'rxjs/add/operator/map';
 import { BookingService } from '~/shared/api';
+import PageService from '~/page/page.service';
 registerElement("PullToRefresh",() => require("nativescript-pulltorefresh").PullToRefresh);
 
 @Component({
@@ -31,6 +32,7 @@ export class SearchResultComponent implements OnInit, OnDestroy {
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private bookingService: BookingService,
+                private pageService: PageService,
                 private routerExtensions: RouterExtensions) {
         this.subscription = this.route.queryParams.subscribe((e) => {
             this.searchCriteria = e || {};

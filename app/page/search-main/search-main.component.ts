@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import * as Toast from 'nativescript-toast';
 import { RadDataFormComponent } from 'nativescript-ui-dataform/angular';
 import { isAndroid, isIOS } from 'platform';
+import { BarcodeScanner } from 'nativescript-barcodescanner';
 
 declare var java: any;
 declare var NSDateFormatter: any;
@@ -21,68 +22,6 @@ export class SearchMainComponent implements OnInit, AfterViewInit {
 
     @ViewChild(RadDataFormComponent)
     public radDataForm: RadDataFormComponent;
-    public formMetadata = {
-        'isReadOnly': false,
-        'commitMode': 'Immediate',
-        'validationMode': 'Immediate',
-        'propertyAnnotations':
-            [
-                {
-                    'name': 'arrivalDate',
-                    'displayName': 'Arrival Date',
-                    'index': 0,
-                    'editor': 'DatePicker',
-                    'validators': [
-                        { 'name': 'NonEmpty' },
-                    ]
-                },
-                {
-                    'name': 'departureDate',
-                    'displayName': 'Departure Date',
-                    'index': 1,
-                    'editor': 'DatePicker',
-                    'validators': [
-                        { 'name': 'NonEmpty' },
-                    ]
-                },
-                {
-                    'name': 'numberOfNights',
-                    'displayName': 'No. night',
-                    'index': 2,
-                    'readOnly': true,
-                    'validators': [
-                        { 'name': 'NonEmpty' },
-                        {
-                            'name': 'RegEx',
-                            'params': {
-                                'regEx': '^\\d{0,2}$',
-                                'errorMessage': 'No. night should >0 and <100'
-                            }
-                        }
-                    ]
-                },
-                {
-                    'name': 'numberOfPAX',
-                    'displayName': 'No. PAX',
-                    'index': 3,
-                    'validators': [
-                        {
-                            'name': 'NonEmpty',
-                            'params': {
-                                'errorMessage': 'Please provide your number of passagers.'
-                            }
-                        },
-                        {
-                            'name': 'RegEx',
-                            'params': {
-                                'regEx': '^[1-9][0-9]{0,2}$',
-                                'errorMessage': 'No. PAX should >0 and <1000'
-                            }
-                        }
-                    ]
-                },
-            ]
-    };
     form: { arrivalDate: string, departureDate: string, numberOfNights: number, numberOfPAX: number } = {
         arrivalDate: moment().format('YYYY-MM-DD'),
         departureDate: moment().add(1, 'd').format('YYYY-MM-DD'),
@@ -90,7 +29,8 @@ export class SearchMainComponent implements OnInit, AfterViewInit {
         numberOfPAX: 1,
     };
 
-    constructor(private router: Router) {
+    constructor(private router: Router,
+                private barcodeScanner: BarcodeScanner) {
     }
 
     ngOnInit(): void {
@@ -223,7 +163,43 @@ export class SearchMainComponent implements OnInit, AfterViewInit {
             editor.dateFormatter = dateFormatter;
         } else {
             var simpleDateFormat = new java.text.SimpleDateFormat('yyyy-MM-dd', java.util.Locale.US);
-            editor.setDateFormat(simpleDateFormat);
+            editor.setDateFormat && editor.setDateFormat(simpleDateFormat);
         }
+    }
+
+    public requestPermission() {
+        return new Promise((resolve, reject) => {
+            this.barcodeScanner.available().then((available) => {
+                if (available) {
+                    this.barcodeScanner.hasCameraPermission().then((granted) => {
+                        if (!granted) {
+                            this.barcodeScanner.requestCameraPermission().then(() => {
+                                resolve('Camera permission granted');
+                            });
+                        } else {
+                            resolve('Camera permission was already granted');
+                        }
+                    });
+                } else {
+                    reject('This device does not have an available camera');
+                }
+            });
+        });
+    }
+
+    public scanBarcode() {
+        this.requestPermission().then((result) => {
+            this.barcodeScanner.scan({
+                cancelLabel: 'Cancel',
+                message: 'Scan Booking QR Code',
+                preferFrontCamera: false,
+                showFlipCameraButton: false
+            }).then((result) => {
+                this.router.navigate(['booking-detail', result.text]);
+            }, (error) => {
+            });
+        }, (error) => {
+            console.log('ERROR', error);
+        });
     }
 }

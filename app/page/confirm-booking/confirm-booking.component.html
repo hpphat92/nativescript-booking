@@ -1,4 +1,64 @@
-<ActionBar title="Confirm booking" class="action-bar">
-    <NavigationButton icon="res://ic_left" text="Back"
+<ActionBar [title]="processingBooking?'Processing...':'Information'" class="action-bar">
+    <NavigationButton icon="res://ic_left" text="Back"  [visibility]="!processingBooking? 'visible' : 'collapsed'"
                       (tap)="goBack()"></NavigationButton>
 </ActionBar>
+<ScrollView  [visibility]="!processingBooking? 'visible' : 'collapsed'">
+    <FlexboxLayout flexDirection="column">
+        <RadDataForm
+                (editorUpdate)="onEditorUpdate($event)"
+                [source]="form"
+                height="750">
+            <TKEntityProperty tkDataFormProperty name="firstName" displayName="First Name" index="0">
+                <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="lastName" displayName="Last Name" index="1">
+                <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="gender" displayName="Gender" index="2"
+                              [valuesProvider]="['Male','Female']">
+                <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="birthdate" displayName="Birth Date" index="3">
+                <TKPropertyEditor tkEntityPropertyEditor type="DatePicker"></TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty tkDataFormProperty name="firstAddress" displayName="Address 1" index="4">
+                <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="secondAddress" displayName="Address 2" index="5">
+                <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty tkDataFormProperty name="email" displayName="Email" index="6">
+                <TKPropertyEditor tkEntityPropertyEditor type="Email"></TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty tkDataFormProperty name="phoneNumber" displayName="Phone Number" index="7">
+                <TKPropertyEditor tkEntityPropertyEditor type="Phone"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="nationality" displayName="Nationality" index="8">
+                <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="passportNumber" displayName="Passport Number" index="9">
+                <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="postalCode" displayName="Postal Code" index="10">
+                <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty name="remarks" displayName="Remarks" index="10">
+                <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+            </TKEntityProperty>
+        </RadDataForm>
+        <Button class="btn btn-primary btn-fa-icon"
+                (tap)="showConfirmDialog()">
+            <FormattedString>
+                <Span text="&#xf046;&nbsp;" fontFamily="FontAwesome"></Span>
+                <Span text="Confirm"></Span>
+            </FormattedString>
+        </Button>
+    </FlexboxLayout>
+</ScrollView>
+
+<StackLayout  [visibility]="processingBooking? 'visible' : 'collapsed'" verticalAlign="center" height="100">
+    <Progress [value]="progressValue" maxValue="100" class="m-20"></Progress>
+</StackLayout>

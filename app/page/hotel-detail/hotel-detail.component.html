@@ -7,7 +7,7 @@
         <ScrollView *tabItem="{title: 'Information'}">
             <StackLayout orientation="vertical" width="100%">
                 <Image class="main-photo"
-                       *ngIf="hotel.images && hotel.images.length"
+                       [visibility]="(hotel.images && hotel.images.length)? 'visible' : 'collapsed'"
                        [src]="hotel.images[0]"
                        stretch="aspectFill"></Image>
                 <!--<ScrollView orientation="horizontal">-->
@@ -33,13 +33,13 @@
                 </DockLayout>
             </StackLayout>
         </ScrollView>
-        <!--<ListView  *tabItem="{title: 'Gallery'}" class="list-group" [items]="hotel.images">-->
-        <!--<ng-template let-item="item">-->
-        <!--<Image [src]="item" class="thumb img-circle"  stretch="aspectFill" verticalAlignment="stretch"></Image>-->
-        <!--</ng-template>-->
+        <!--<ListView *tabItem="{title: 'Gallery'}" class="list-group" [items]="hotel.images">-->
+            <!--<ng-template let-item="item">-->
+                <!--<Image [src]="item" stretch="aspectFill" (tap)="viewPhoto(item)" verticalAlignment="stretch"></Image>-->
+            <!--</ng-template>-->
         <!--</ListView>-->
 
-        <ScrollView *tabItem="{title: 'Gallery'}" >
+        <ScrollView *tabItem="{title: 'Gallery'}">
             <WrapLayout orientation="horizontal">
                 <Image [src]="photo" (tap)="viewPhoto(idx)"
                        height="240"
@@ -47,49 +47,73 @@
                        *ngFor="let photo of hotel.images, let idx = index"></Image>
             </WrapLayout>
         </ScrollView>
+        <ScrollView *tabItem="{title: 'Add-ons'}" [visibility]="(hotel && hotel.addOns && hotel.addOns.length)? 'visible' : 'collapsed'"
+                    class="hotel-detail-addon">
+            <StackLayout>
+                <RadListView [items]="hotel.addOns"
+                             row="1" selectionBehavior="Press"
+                             multipleSelection="true"
+                             (itemSelected)="onItemSelected($event)"
+                             class="list-group" style="height: 100%">
+                    <!--<PullToRefresh (refresh)="onRefresh($event)">-->
+                    <!--<ListView class="list-group" [items]="listData" (itemTap)="onItemTap($event)">-->
+                    <ng-template let-item="item" tkListItemTemplate>
+                        <FlexboxLayout justifyContent="center" height="120" flexDirection="row" class="list-group-item">
+                            <Image [src]="item.imageUrl" class="main-photo img-circle" stretch="aspectFill"></Image>
+                            <FlexboxLayout flexGrow="1" class="main-content" flexDirection="column"
+                                           justifyContent="center">
+                                <Label [text]="item.name" class="list-group-item-heading-item"
+                                       verticalAlignment="center"></Label>
+                                <Label class="price" [text]="item.price | currency: 'USD': '$'"></Label>
+                            </FlexboxLayout>
+                        </FlexboxLayout>
+                    </ng-template>
+                </RadListView>
+                <Button text="Choice Rooms" class="btn btn-primary" (tap)="goChoiceRooms()"></Button>
+            </StackLayout>
+        </ScrollView>
         <ScrollView *tabItem="{title: 'Rooms'}" class="room-type-list">
             <StackLayout>
-                <ng-template [ngIf]="hotel">
-                    <FlexboxLayout flexDirection="column" class="room-type-container"
-                                   *ngFor="let room of hotel.rooms">
-                        <Label class="room-type-name" [text]="room.name"></Label>
-                        <WrapLayout class="room-type-facilities-container">
-                            <Label *ngFor="let f of room.facilities" class="facility">
-                                <FormattedString>
-                                    <Span text="&#xf058;&nbsp;" fontFamily="FontAwesome"></Span>
-                                    <Span [text]="f.name"></Span>
-                                </FormattedString>
-                            </Label>
-                        </WrapLayout>
-                        <Label class="room-type-description" textWrap="true" [text]="room.description"></Label>
-                        <StackLayout class="room-type-list-container">
-                            <FlexboxLayout class="select-room-type-amount" flexDirection="row"
-                                           alignItems="center"
-                                           justifyContent="space-between"
-                                           *ngFor="let r of room.rateTypes">
-                                <StackLayout>
-                                    <Label class="room-type-name" [text]="r.name"></Label>
-                                    <Label>
-                                        <FormattedString *ngIf="r.capability<3" class="capacity">
-                                        <Span *ngIf="r.capability>0" text="&#xf007;&nbsp;"
+                <FlexboxLayout flexDirection="column" class="room-type-container"
+                               [visibility]="hotel? 'visible' : 'collapsed'"
+                               *ngFor="let room of hotel.rooms">
+                    <Label class="room-type-name" [text]="room.name"></Label>
+                    <WrapLayout class="room-type-facilities-container">
+                        <Label *ngFor="let f of room.facilities" class="facility">
+                            <FormattedString>
+                                <Span text="&#xf058;&nbsp;" fontFamily="FontAwesome"></Span>
+                                <Span [text]="f.name"></Span>
+                            </FormattedString>
+                        </Label>
+                    </WrapLayout>
+                    <Label class="room-type-description" textWrap="true" [text]="room.description"></Label>
+                    <StackLayout class="room-type-list-container">
+                        <FlexboxLayout class="select-room-type-amount" flexDirection="row"
+                                       alignItems="center"
+                                       justifyContent="space-between"
+                                       *ngFor="let r of room.rateTypes">
+                            <StackLayout>
+                                <Label class="room-type-name" [text]="r.name"></Label>
+                                <Label>
+                                    <FormattedString [visibility]="r.capability<3? 'visible' : 'collapsed'" class="capacity">
+                                        <Span [visibility]="r.capability>0? 'visible' : 'collapsed'" text="&#xf007;&nbsp;"
                                               fontFamily="FontAwesome"></Span>
-                                            <Span *ngIf="r.capability>1" text="&#xf007;&nbsp;"
-                                                  fontFamily="FontAwesome"></Span>
-                                        </FormattedString>
-                                        <FormattedString *ngIf="r.capability>=3" class="capacity">
+                                        <Span [visibility]="r.capability>1? 'visible' : 'collapsed'" text="&#xf007;&nbsp;"
+                                              fontFamily="FontAwesome"></Span>
+                                    </FormattedString>
+                                    <FormattedString [visibility]="r.capability>=3? 'visible' : 'collapsed'" class="capacity">
                                                 <Span fontFamily="FontAwesome"
                                                       text="&#xf007;&nbsp;x {{r.capability}}"></Span>
-                                        </FormattedString>
-                                    </Label>
-                                    <Label class="price" [text]="r.rate | currency: 'USD': '$'"></Label>
-                                </StackLayout>
-                                <Label class="selected-amount" (tap)="choiceRoom(r, selectedAmountItem)"
-                                       #selectedAmountItem
-                                       text="--Choice Amount--"></Label>
-                            </FlexboxLayout>
-                        </StackLayout>
-                    </FlexboxLayout>
-                </ng-template>
+                                    </FormattedString>
+                                </Label>
+                                <Label class="price" [text]="r.rate | currency: 'USD': '$'"></Label>
+                            </StackLayout>
+                            <Label class="selected-amount" (tap)="choiceRoom(r, selectedAmountItem)"
+                                   #selectedAmountItem
+                                   text="--Choice Amount--"></Label>
+                        </FlexboxLayout>
+                    </StackLayout>
+                </FlexboxLayout>
                 <Label class="text-right total-price">
                     <FormattedString>
                         <Span class="title" text="Total: "></Span>

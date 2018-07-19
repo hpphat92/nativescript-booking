@@ -1,0 +1,92 @@
+<ActionBar title="Review your booking" class="action-bar">
+    <NavigationButton icon="res://ic_left" text="Back"
+                      (tap)="goBack()"></NavigationButton>
+</ActionBar>
+<ScrollView>
+    <StackLayout orientation="vertical">
+        <FlexboxLayout justifyContent="space-between" style="padding: 10px; line-height: 30px;" alignItems="center" class="general-info-row">
+            <Label text="Check-in" style=""></Label>
+            <Label [text]="bookingDetail.checkIn" class="list-group-item-heading" verticalAlignment="center"
+                   style="width: 60%; font-weight: bold;"></Label>
+        </FlexboxLayout>
+        <FlexboxLayout justifyContent="space-between" style="padding: 10px; line-height: 30px;" alignItems="center" class="general-info-row">
+            <Label text="Check-out" style=""></Label>
+            <Label [text]="bookingDetail.checkOut" class="list-group-item-heading" verticalAlignment="center"
+                   style="width: 60%; font-weight: bold;"></Label>
+        </FlexboxLayout>
+        <StackLayout orientation="vertical">
+            <Label text="Rooms"
+                   style="padding: 20px 15px; font-size: 16px; font-weight: bold; color: #fff; background: #0b007b;"></Label>
+        </StackLayout>
+        <StackLayout orientation="vertical" style="line-height: 30px;" *ngFor="let room of bookingDetail.rooms">
+            <Label [text]="room.roomName"
+                   style="padding: 15px; font-size: 16px; font-weight: bold; color: #0b007b;"></Label>
+            <FlexboxLayout *ngFor="let roomType of room.types" alignItems="center" justifyContent="space-between">
+                <FlexboxLayout alignItems="center">
+                    <Label style="margin: 0 30px;"
+                           [text]="roomType.quantity + 'x'">
+                    </Label>
+                    <FlexboxLayout flexDirection="column">
+                        <Label style="display: block; font-size: 16px; color: #170ab5">
+                            <FormattedString>
+                                <Span [text]="roomType.roomType"></Span>
+                            </FormattedString>
+                        </Label>
+                        <Label style="color: #444; font-size: 12px;">
+                            <FormattedString>
+                                <Span text="x"></Span>
+                                <Span [text]="roomType.rate | currency: 'USD':'$'"></Span>
+                            </FormattedString>
+                        </Label>
+                    </FlexboxLayout>
+                </FlexboxLayout>
+                <Label style="text-align: right; font-size: 15px; font-weight: bold; margin-right: 10px;"
+                       [text]="(roomType.rate * roomType.quantity) | currency: 'USD':'$'"></Label>
+            </FlexboxLayout>
+        </StackLayout>
+        <StackLayout orientation="vertical" [visibility]="bookingDetail.addOns.length? 'visible' : 'collapsed'">
+            <Label text="Add Ons"
+                   style="padding: 20px 15px; font-size: 16px; font-weight: bold; color: #fff; background: #0b007b;"></Label>
+        </StackLayout>
+        <StackLayout orientation="vertical" style="line-height: 30px;">
+            <FlexboxLayout *ngFor="let addOn of bookingDetail.addOns" alignItems="center" justifyContent="space-between">
+                <FlexboxLayout alignItems="center">
+                    <Label style="margin: 0 30px;"
+                           text="1x">
+                    </Label>
+                    <FlexboxLayout flexDirection="column">
+                        <Label style="display: block; font-size: 16px; color: #170ab5">
+                            <FormattedString>
+                                <Span [text]="addOn.name"></Span>
+                            </FormattedString>
+                        </Label>
+                        <Label style="color: #444; font-size: 12px;">
+                            <FormattedString>
+                                <Span text="x"></Span>
+                                <Span [text]="addOn.price | currency: 'USD':'$'"></Span>
+                            </FormattedString>
+                        </Label>
+                    </FlexboxLayout>
+                </FlexboxLayout>
+                <Label style="text-align: right; font-size: 15px; font-weight: bold; margin-right: 10px;"
+                       [text]="addOn.price | currency: 'USD':'$'"></Label>
+            </FlexboxLayout>
+        </StackLayout>
+        <FlexboxLayout style="margin-top: 15px" alignItems="center" justifyContent="flex-end">
+
+            <Label text="Total" style="margin-right: 15px; font-size: 13px;"></Label>
+            <Label [text]="bookingDetail.total |  currency: 'USD':'$'" style="text-align: right;min-width: 300px; font-size: 20px; margin-right: 10px; font-weight: bold;color: #170ab5"></Label>
+        </FlexboxLayout>
+        <FlexboxLayout style="margin-top: 15px" alignItems="center" justifyContent="flex-end">
+            <Label text="Total (your currency)" style="margin-right: 15px; font-size: 13px;"></Label>
+            <Label [text]="8.19 |  currency: 'USD':'$'" style="text-align: right;min-width: 300px; font-size: 18px; margin-right: 10px; font-weight: bold;color: #170ab5"></Label>
+        </FlexboxLayout>
+        <Button class="btn btn-primary btn-fa-icon"
+                style="height: 100px"
+                (tap)="goConfirmBooking()">
+            <FormattedString>
+                <Span text="Reserve now"></Span>
+            </FormattedString>
+        </Button>
+    </StackLayout>
+</ScrollView>

@@ -18,11 +18,9 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 
-import { DataResponseModelListAnswerModel } from '../model/dataResponseModelListAnswerModel';
-import { DataResponseModelTrabbleBotAnswerModel } from '../model/dataResponseModelTrabbleBotAnswerModel';
 import { NoDataResponseModel } from '../model/noDataResponseModel';
+import { QnAAnswerModel } from '../model/qnAAnswerModel';
 import { QuestionModel } from '../model/questionModel';
-import { TrabbleBotQuestionModel } from '../model/trabbleBotQuestionModel';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -102,61 +100,6 @@ export class QnaMakerService {
     }
 
     /**
-     * QnaMaker_GetAnswerForBot
-     * 
-     * @param partnerId 
-     * @param question 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public qnaMakerGetAnswerForBot(partnerId: string, question?: TrabbleBotQuestionModel, observe?: 'body', reportProgress?: boolean): Observable<DataResponseModelTrabbleBotAnswerModel>;
-    public qnaMakerGetAnswerForBot(partnerId: string, question?: TrabbleBotQuestionModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DataResponseModelTrabbleBotAnswerModel>>;
-    public qnaMakerGetAnswerForBot(partnerId: string, question?: TrabbleBotQuestionModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DataResponseModelTrabbleBotAnswerModel>>;
-    public qnaMakerGetAnswerForBot(partnerId: string, question?: TrabbleBotQuestionModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (partnerId === null || partnerId === undefined) {
-            throw new Error('Required parameter partnerId was null or undefined when calling qnaMakerGetAnswerForBot.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (Bearer) required
-        if (this.configuration.apiKeys["Authorization"]) {
-            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
-        }
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'application/json'
-        ];
-        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set("Accept", httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        let consumes: string[] = [
-            'application/json-patch+json',
-            'application/json',
-            'text/json',
-            'application/_*+json'
-        ];
-        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set("Content-Type", httpContentTypeSelected);
-        }
-
-        return this.httpClient.post<DataResponseModelTrabbleBotAnswerModel>(`${this.basePath}/api/QnaMaker/bot-generate-answer/${encodeURIComponent(String(partnerId))}`,
-            question,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * QnaMaker_GetAnswers
      * 
      * @param partnerId 
@@ -164,9 +107,9 @@ export class QnaMakerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public qnaMakerGetAnswers(partnerId: string, model?: QuestionModel, observe?: 'body', reportProgress?: boolean): Observable<DataResponseModelListAnswerModel>;
-    public qnaMakerGetAnswers(partnerId: string, model?: QuestionModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DataResponseModelListAnswerModel>>;
-    public qnaMakerGetAnswers(partnerId: string, model?: QuestionModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DataResponseModelListAnswerModel>>;
+    public qnaMakerGetAnswers(partnerId: string, model?: QuestionModel, observe?: 'body', reportProgress?: boolean): Observable<Array<QnAAnswerModel>>;
+    public qnaMakerGetAnswers(partnerId: string, model?: QuestionModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<QnAAnswerModel>>>;
+    public qnaMakerGetAnswers(partnerId: string, model?: QuestionModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<QnAAnswerModel>>>;
     public qnaMakerGetAnswers(partnerId: string, model?: QuestionModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (partnerId === null || partnerId === undefined) {
             throw new Error('Required parameter partnerId was null or undefined when calling qnaMakerGetAnswers.');
@@ -200,7 +143,7 @@ export class QnaMakerService {
             headers = headers.set("Content-Type", httpContentTypeSelected);
         }
 
-        return this.httpClient.post<DataResponseModelListAnswerModel>(`${this.basePath}/api/QnaMaker/generate-answers/${encodeURIComponent(String(partnerId))}`,
+        return this.httpClient.post<Array<QnAAnswerModel>>(`${this.basePath}/api/QnaMaker/generate-answers/${encodeURIComponent(String(partnerId))}`,
             model,
             {
                 withCredentials: this.configuration.withCredentials,

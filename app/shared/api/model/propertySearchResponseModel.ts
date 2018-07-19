@@ -13,7 +13,7 @@
 
 export interface PropertySearchResponseModel {
     image?: string;
-    totalPrice?: number;
+    minPrice?: number;
     name?: string;
     description?: string;
     type?: PropertySearchResponseModel.TypeEnum;

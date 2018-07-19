@@ -302,6 +302,47 @@ export class TestService {
     }
 
     /**
+     * Test_GenerateQrCode
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public testGenerateQrCode(observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public testGenerateQrCode(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public testGenerateQrCode(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public testGenerateQrCode(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.post<any>(`${this.basePath}/api/test/Generate-qrcode`,
+            null,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Test_GetLocation
      * 
      * @param lat 

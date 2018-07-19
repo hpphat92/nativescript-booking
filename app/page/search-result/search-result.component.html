@@ -4,9 +4,9 @@
 </ActionBar>
 <ScrollView class="search-result">
     <StackLayout class="home-panel">
-        <ActivityIndicator row="2" *ngIf="busy" busy="true" width="50" height="50"
+        <ActivityIndicator row="2"  [visibility]="busy? 'visible' : 'collapsed'" busy="true" width="50" height="50"
                            class="activity-indicator"></ActivityIndicator>
-        <Label *ngIf="(!listData || !listData.length) && !busy" text="No results" class="text-center"></Label>
+        <Label  [visibility]="((!listData || !listData.length) && !busy)? 'visible' : 'collapsed'" text="No results" class="text-center"></Label>
         <RadListView [items]="listData"
                      row="1" selectionBehavior="Press"
                      (itemSelected)="onItemTap($event)"

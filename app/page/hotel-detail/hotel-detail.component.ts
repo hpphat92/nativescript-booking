@@ -1,15 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterExtensions } from 'nativescript-angular';
 import * as moment from 'moment';
 import AppConstant from '~/app.constant';
 import 'rxjs/add/operator/map';
-import { BookingService } from '~/shared/api';
+import { BookingService, ReserveModel } from '~/shared/api';
 import * as _ from 'lodash';
 import { action } from 'tns-core-modules/ui/dialogs';
 import { FilePhotoview } from 'nativescript-file-photoview';
 import PageService from '~/page/page.service';
 import { isAndroid, isIOS } from 'platform';
+import BookingSourceEnum = ReserveModel.BookingSourceEnum;
+import { RadListViewComponent } from 'nativescript-ui-listview/angular';
 
 let PhotoViewer = require('nativescript-photoviewer');
 
@@ -22,7 +24,9 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
     public subscription;
     public times = _.times;
     public searchCriteria;
-    public hotel: any = {};
+    public hotel: any = {
+        images: []
+    };
     public roomList = [];
     public totalRates = 0;
     public totalPrice = 0;
@@ -63,18 +67,12 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
             this.searchCriteria.numberOfPAX)
             .map((resp: any) => {
                 this.hotel = resp.data;
+                this.pageService.selectedBookingInfo = {
+                    hotel: this.hotel
+                };
                 this.totalRates = this.hotel.rooms.reduce((a, b) => {
                     return a + b.rateTypes.length
                 }, 0);
-                this.roomList = _.flatten(_.map(this.hotel.rooms, (room) => {
-                        return _.map(room.rateTypes, (rateType, i) => {
-                            return {
-                                room,
-                                rateType, numRowSpan: !i ? room.rateTypes.length : 0,
-                            }
-                        })
-                    })
-                );
             })
     }
 
@@ -89,13 +87,13 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
         }
     }
 
-    public choiceRoom(room, roomItem) {
+    public choiceRoom(rate, roomItem) {
         let options = {
             title: 'Choice Amount',
             message: 'Select how many rooms you need',
             cancelButtonText: 'Cancel',
-            actions: _.times(21, (value) => {
-                return `${value} - $${(value * room.rate).toFixed(2)}`;
+            actions: _.times(rate.availableQuantity + 1, (value) => {
+                return `${value} - $${(value * rate.rate).toFixed(2)}`;
             })
         };
 
@@ -103,7 +101,7 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
             if (result.toLowerCase() !== 'cancel') {
                 let amountSelected = +result.split('-')[0].trim();
                 roomItem.text = amountSelected + ' room(s)';
-                room.amountSelected = amountSelected;
+                rate.amountSelected = amountSelected;
                 this.updateTotalPrice();
             }
         });
@@ -113,6 +111,25 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
         this.totalPrice = _.reduce(this.hotel.rooms, (m, room) => {
             return m + _.reduce(room.rateTypes, (a, b) => a + (b.amountSelected || 0) * b.rate, 0);
         }, 0);
+        // Update room model
+        this.pageService.selectedBookingInfo = {
+            id: this.searchCriteria.id,
+            checkIn: moment(this.searchCriteria.arrivalDate, 'YYYY-MM-DD').format(AppConstant.typeFormat.date),
+            checkOut: moment(this.searchCriteria.departureDate, 'YYYY-MM-DD').format(AppConstant.typeFormat.date),
+            bookingSource: BookingSourceEnum.Manual,
+            arrivalTime: '',
+            itemTypeReserves: _.compact(_.flatten(_.map(this.hotel.rooms, (room) => {
+                return _.map(room.rateTypes, (rate) => {
+                    if (rate.amountSelected) {
+                        return {
+                            itemId: room.id,
+                            rateTypeId: rate.id,
+                            quantity: rate.amountSelected
+                        }
+                    }
+                })
+            })))
+        }
     }
 
     public viewPhoto(idx) {
@@ -125,8 +142,18 @@ export class HotelDetailComponent implements OnInit, OnDestroy {
         this.tabSelectedIndex = 2;
     }
 
+    public goChoiceRooms() {
+        this.tabSelectedIndex = 3;
+    }
+
     public bookRooms() {
-        debugger;
-        this.router.navigate(['confirm-booking']);
+        this.router.navigate(['review-booking']);
+    }
+
+    public onItemSelected(e) {
+        let selectedItems = e.object.getSelectedItems();
+        this.pageService.selectedBookingInfo = {
+            addOns: _.map(selectedItems, 'id')
+        };
     }
 }
