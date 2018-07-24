@@ -14,6 +14,7 @@
   //font-family: 'Lobster', cursive;
   font-family: 'Source Sans Pro', sans-serif;
 }
+
 .hotel-detail-addon {
   .main-photo {
     height: 220px;
@@ -24,12 +25,14 @@
     margin: 0;
   }
 }
+
 .search-result, .hotel-detail-addon {
   .home-panel {
     height: 100%;
   }
   .list-group {
     height: 100%;
+    width: 100%;
   }
   .list-group-item {
     max-height: 240px;

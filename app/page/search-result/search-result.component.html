@@ -19,9 +19,9 @@
                     <Image [src]="item.image" class="main-photo img-circle" stretch="aspectFill"></Image>
                     <FlexboxLayout flexGrow="1" class="main-content" flexDirection="column"
                                    justifyContent="center">
-                        <Label [text]="item.name" class="list-group-item-heading-item"
+                        <Label [text]="item.name" style="overflow: hidden; white-space: nowrap; -ms-text-overflow: ellipsis;text-overflow: ellipsis;" class="list-group-item-heading-item"
                                verticalAlignment="center"></Label>
-                        <Label [text]="item.description" class="list-group-item-text-item"></Label>
+                        <Label  style="overflow: hidden; white-space: nowrap; -ms-text-overflow: ellipsis;text-overflow: ellipsis;" [text]="item.description" class="list-group-item-text-item"></Label>
                         <Label class="price" [text]="item.minPrice | currency: 'USD': '$'"></Label>
                     </FlexboxLayout>
                 </FlexboxLayout>
