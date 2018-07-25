@@ -113,6 +113,14 @@ export class ConfirmBookingComponent {
                         callTimeout(() => {
                             this.showDialogCompleted();
                         });
+                    }, (err)=>{
+                        alert({
+                            title: 'Error',
+                            message: err,
+                            okButtonText: 'Back to home'
+                        }).then(()=>{
+                            this.router.navigate(['']);
+                        })
                     });
             }
         });
