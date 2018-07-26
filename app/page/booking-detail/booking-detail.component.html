@@ -22,9 +22,14 @@
             </FlexboxLayout>
             <FlexboxLayout justifyContent="space-between" alignItems="center" class="general-info-row">
                 <Label text="Price" style=""></Label>
-                <Label [text]="bookingDetail.totalPrice | currency: 'USD':'$'" class="list-group-item-heading"
+                <Label [text]="bookingDetail.totalCost | currency: 'USD':'$'" class="list-group-item-heading"
                        verticalAlignment="center"
                        style="width: 60%; font-weight: bold; font-size: 22px; color: darkred"></Label>
+            </FlexboxLayout>
+            <FlexboxLayout justifyContent="space-between" alignItems="center" class="general-info-row">
+                <Label text="Status" style=""></Label>
+                <Label [text]="bookingDetail.status.description" class="list-group-item-heading"
+                       style="width: 60%;"></Label>
             </FlexboxLayout>
 
             <FlexboxLayout justifyContent="space-between" alignItems="center" class="general-info-row split">
@@ -75,7 +80,7 @@
                        style="padding: 20px 15px; font-size: 16px; font-weight: bold; color: #fff; background: #0b007b;"></Label>
             </StackLayout>
             <StackLayout orientation="vertical" style="line-height: 30px;" *ngFor="let room of bookingDetail.rooms">
-                <Label [text]="room.roomName"
+                <Label [text]="room.name"
                        style="padding: 15px; font-size: 16px; font-weight: bold; color: #0b007b;"></Label>
                 <FlexboxLayout *ngFor="let roomType of room.types" alignItems="center" justifyContent="space-between">
                     <FlexboxLayout alignItems="center">
@@ -85,7 +90,7 @@
                         <FlexboxLayout flexDirection="column">
                             <Label style="display: block; font-size: 16px; color: #170ab5">
                                 <FormattedString>
-                                    <Span [text]="roomType.roomType"></Span>
+                                    <Span [text]="roomType.name"></Span>
                                 </FormattedString>
                             </Label>
                             <Label style="color: #444; font-size: 12px;">
@@ -105,7 +110,8 @@
                        style="padding: 20px 15px; font-size: 16px; font-weight: bold; color: #fff; background: #0b007b;"></Label>
             </StackLayout>
             <StackLayout orientation="vertical" style="line-height: 30px;">
-                <FlexboxLayout *ngFor="let addOn of bookingDetail.addOns" alignItems="center" justifyContent="space-between">
+                <FlexboxLayout *ngFor="let addOn of bookingDetail.addOns" alignItems="center"
+                               justifyContent="space-between">
                     <FlexboxLayout alignItems="center">
                         <Label style="margin: 0 30px;"
                                text="1x">
@@ -130,11 +136,13 @@
             </StackLayout>
             <FlexboxLayout style="margin-top: 15px" alignItems="center" justifyContent="flex-end">
                 <Label text="Total" style="margin-right: 15px; font-size: 13px;"></Label>
-                <Label [text]="1539290.2225 |  currency: 'USD':'$'" style="text-align: right;min-width: 300px; font-size: 20px; margin-right: 10px; font-weight: bold;color: #170ab5"></Label>
+                <Label [text]="bookingDetail.totalCost |  currency: 'USD':'$'"
+                       style="text-align: right;min-width: 300px; font-size: 20px; margin-right: 10px; font-weight: bold;color: #170ab5"></Label>
             </FlexboxLayout>
             <FlexboxLayout style="margin-top: 15px" alignItems="center" justifyContent="flex-end">
                 <Label text="Total (your currency)" style="margin-right: 15px; font-size: 13px;"></Label>
-                <Label [text]="8.19 |  currency: 'USD':'$'" style="text-align: right;min-width: 300px; font-size: 18px; margin-right: 10px; font-weight: bold;color: #170ab5"></Label>
+                <Label [text]="bookingDetail.totalCost |  currency: 'USD':'$'"
+                       style="text-align: right;min-width: 300px; font-size: 18px; margin-right: 10px; font-weight: bold;color: #170ab5"></Label>
             </FlexboxLayout>
         </StackLayout>
     </ScrollView>
@@ -144,7 +152,8 @@
                    [src]="bookingDetail.hotel.imageUrl"
                    stretch="aspectFill"></Image>
             <Label class="hotel-name" [text]="bookingDetail.hotel.name"></Label>
-            <Label class="address" [text]="bookingDetail.hotel.city + ' - ' + bookingDetail.hotel.country"></Label>
+            <Label class="address"
+                   [text]="(bookingDetail.hotel.city || '') + (bookingDetail.hotel.city && bookingDetail.hotel.country?' - ':'') + (bookingDetail.hotel.country || '')"></Label>
         </StackLayout>
     </ScrollView>
 </TabView>

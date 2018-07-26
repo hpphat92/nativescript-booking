@@ -24,8 +24,10 @@ import { DataResponseModelBaseModel } from '../model/dataResponseModelBaseModel'
 import { DataResponseModelListAssociatedQuestionDTO } from '../model/dataResponseModelListAssociatedQuestionDTO';
 import { DataResponseModelListBaseModel } from '../model/dataResponseModelListBaseModel';
 import { DataResponseModelListCardDTO } from '../model/dataResponseModelListCardDTO';
+import { DataResponseModelListKeywordDTO } from '../model/dataResponseModelListKeywordDTO';
 import { DataResponseModelListListCardDTO } from '../model/dataResponseModelListListCardDTO';
 import { DataResponseModelPaginationResponseModelListCardDTO } from '../model/dataResponseModelPaginationResponseModelListCardDTO';
+import { FbCardModel } from '../model/fbCardModel';
 import { NewCardActionDTO } from '../model/newCardActionDTO';
 import { NewCardActionResult } from '../model/newCardActionResult';
 import { NoDataResponseModel } from '../model/noDataResponseModel';
@@ -162,6 +164,53 @@ export class CardsService {
         ];
 
         return this.httpClient.get<BotCardModel>(`${this.basePath}/api/Cards/${encodeURIComponent(String(cardId))}/botcard`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Cards_AsFacebookCard
+     * 
+     * @param cardId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public cardsAsFacebookCard(cardId: string, observe?: 'body', reportProgress?: boolean): Observable<FbCardModel>;
+    public cardsAsFacebookCard(cardId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<FbCardModel>>;
+    public cardsAsFacebookCard(cardId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<FbCardModel>>;
+    public cardsAsFacebookCard(cardId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (cardId === null || cardId === undefined) {
+            throw new Error('Required parameter cardId was null or undefined when calling cardsAsFacebookCard.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.get<FbCardModel>(`${this.basePath}/api/Cards/${encodeURIComponent(String(cardId))}/facebookcard`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -493,6 +542,53 @@ export class CardsService {
         ];
 
         return this.httpClient.get<DataResponseModelListListCardDTO>(`${this.basePath}/api/Cards/${encodeURIComponent(String(cardId))}/FollowOns`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Cards_GetKeywords
+     * 
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public cardsGetKeywords(id: string, observe?: 'body', reportProgress?: boolean): Observable<DataResponseModelListKeywordDTO>;
+    public cardsGetKeywords(id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DataResponseModelListKeywordDTO>>;
+    public cardsGetKeywords(id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DataResponseModelListKeywordDTO>>;
+    public cardsGetKeywords(id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling cardsGetKeywords.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+        ];
+
+        return this.httpClient.get<DataResponseModelListKeywordDTO>(`${this.basePath}/api/Cards/${encodeURIComponent(String(id))}/keywords`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

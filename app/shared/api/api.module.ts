@@ -21,6 +21,7 @@ import { InvItemRateTypeService } from './api/invItemRateType.service';
 import { InvItemTypeService } from './api/invItemType.service';
 import { InventoryContainerService } from './api/inventoryContainer.service';
 import { InventoryItemService } from './api/inventoryItem.service';
+import { KeywordService } from './api/keyword.service';
 import { NoteService } from './api/note.service';
 import { PartnerService } from './api/partner.service';
 import { PartnerSettingService } from './api/partnerSetting.service';
@@ -56,6 +57,7 @@ import { UnansweredQuestionsService } from './api/unansweredQuestions.service';
     InvItemTypeService,
     InventoryContainerService,
     InventoryItemService,
+    KeywordService,
     NoteService,
     PartnerService,
     PartnerSettingService,

@@ -13,6 +13,7 @@ import { AssociatedQuestion } from './associatedQuestion';
 import { CardAction } from './cardAction';
 import { CardCollectionTemplate } from './cardCollectionTemplate';
 import { CardGroup } from './cardGroup';
+import { Keyword } from './keyword';
 import { Partner } from './partner';
 
 
@@ -34,6 +35,7 @@ export interface Card {
     parentCardActions?: Array<CardAction>;
     childCardActions?: Array<CardAction>;
     associatedQuestions?: Array<AssociatedQuestion>;
+    keywords?: Array<Keyword>;
     cardGroupId?: string;
     cardGroup?: CardGroup;
     id?: string;

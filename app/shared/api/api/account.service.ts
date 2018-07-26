@@ -19,7 +19,9 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { Observable }                                        from 'rxjs/Observable';
 
 import { DataResponseModelLoginSuccessResModel } from '../model/dataResponseModelLoginSuccessResModel';
+import { DataResponseModelString } from '../model/dataResponseModelString';
 import { ExternalLoginModel } from '../model/externalLoginModel';
+import { FbShortAccessTokenModel } from '../model/fbShortAccessTokenModel';
 import { ForgotPasswordModel } from '../model/forgotPasswordModel';
 import { LoginModel } from '../model/loginModel';
 import { NoDataResponseModel } from '../model/noDataResponseModel';
@@ -159,6 +161,59 @@ export class AccountService {
         }
 
         return this.httpClient.post<DataResponseModelLoginSuccessResModel>(`${this.basePath}/api/accounts/forgot-password`,
+            model,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Account_GetFbLongAccessToken
+     * 
+     * @param model 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public accountGetFbLongAccessToken(model?: FbShortAccessTokenModel, observe?: 'body', reportProgress?: boolean): Observable<DataResponseModelString>;
+    public accountGetFbLongAccessToken(model?: FbShortAccessTokenModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<DataResponseModelString>>;
+    public accountGetFbLongAccessToken(model?: FbShortAccessTokenModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<DataResponseModelString>>;
+    public accountGetFbLongAccessToken(model?: FbShortAccessTokenModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        let httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set("Accept", httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json-patch+json',
+            'application/json',
+            'text/json',
+            'application/_*+json'
+        ];
+        let httpContentTypeSelected:string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set("Content-Type", httpContentTypeSelected);
+        }
+
+        return this.httpClient.post<DataResponseModelString>(`${this.basePath}/api/accounts/facebook-long-token`,
             model,
             {
                 withCredentials: this.configuration.withCredentials,
